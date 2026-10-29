@@ -1,0 +1,24 @@
+{
+  "fixtures": [
+    { "id": "r4-m1", "round": 4, "home": "Ireland",  "away": "Argentina",    "kickoff": "2026-11-06T20:10:00Z" },
+    { "id": "r4-m2", "round": 4, "home": "Italy",    "away": "South Africa", "kickoff": "2026-11-07T11:40:00Z" },
+    { "id": "r4-m3", "round": 4, "home": "Scotland", "away": "New Zealand",  "kickoff": "2026-11-07T14:10:00Z" },
+    { "id": "r4-m4", "round": 4, "home": "Wales",    "away": "Japan",        "kickoff": "2026-11-07T16:40:00Z" },
+    { "id": "r4-m5", "round": 4, "home": "France",   "away": "Fiji",         "kickoff": "2026-11-07T20:10:00Z" },
+    { "id": "r4-m6", "round": 4, "home": "England",  "away": "Australia",    "kickoff": "2026-11-08T15:10:00Z" },
+
+    { "id": "r5-m1", "round": 5, "home": "France",   "away": "South Africa", "kickoff": "2026-11-13T20:10:00Z" },
+    { "id": "r5-m2", "round": 5, "home": "Italy",    "away": "Argentina",    "kickoff": "2026-11-14T11:40:00Z" },
+    { "id": "r5-m3", "round": 5, "home": "Wales",    "away": "New Zealand",  "kickoff": "2026-11-14T14:10:00Z" },
+    { "id": "r5-m4", "round": 5, "home": "England",  "away": "Japan",        "kickoff": "2026-11-14T16:40:00Z" },
+    { "id": "r5-m5", "round": 5, "home": "Ireland",  "away": "Fiji",         "kickoff": "2026-11-14T20:10:00Z" },
+    { "id": "r5-m6", "round": 5, "home": "Scotland", "away": "Australia",    "kickoff": "2026-11-15T15:10:00Z" },
+
+    { "id": "r6-m1", "round": 6, "home": "England",  "away": "New Zealand",  "kickoff": "2026-11-21T14:10:00Z" },
+    { "id": "r6-m2", "round": 6, "home": "Scotland", "away": "Japan",        "kickoff": "2026-11-21T14:10:00Z" },
+    { "id": "r6-m3", "round": 6, "home": "Ireland",  "away": "South Africa", "kickoff": "2026-11-21T16:40:00Z" },
+    { "id": "r6-m4", "round": 6, "home": "Italy",    "away": "Fiji",         "kickoff": "2026-11-21T16:40:00Z" },
+    { "id": "r6-m5", "round": 6, "home": "Wales",    "away": "Australia",    "kickoff": "2026-11-21T20:10:00Z" },
+    { "id": "r6-m6", "round": 6, "home": "France",   "away": "Argentina",    "kickoff": "2026-11-21T20:10:00Z" }
+  ]
+}

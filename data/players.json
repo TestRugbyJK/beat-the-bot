@@ -1,0 +1,11 @@
+{
+  "players": [
+    { "name": "Adam",   "emoji": "🦁" },
+    { "name": "Matt",   "emoji": "🐺" },
+    { "name": "Jerome", "emoji": "🦊" },
+    { "name": "Grigor", "emoji": "🐻" },
+    { "name": "Angus",  "emoji": "🐂" },
+    { "name": "Alex",   "emoji": "🦅" }
+  ],
+  "bot": { "name": "Bot", "emoji": "🤖" }
+}

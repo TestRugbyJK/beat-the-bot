@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<title>Beat the Bot — Nations Championship 2026</title>
+<style>
+  /* ---------- Colours (light mode first, dark mode overrides below) ---------- */
+  :root {
+    --bg: #f2ede2;          /* New Town sandstone */
+    --card: #fffdf8;
+    --ink: #0d2038;
+    --muted: #5a687a;
+    --line: #ddd2bd;
+    --navy: #0b1f3a;
+    --navy-2: #16345c;
+    --thistle: #7b4aa8;
+    --thistle-soft: #eadff6;
+    --gold: #e0b44c;
+    --good-bg: #d7f0e0;  --good-fg: #11633a;
+    --ok-bg: #dbe9fb;    --ok-fg: #17457f;
+    --meh-bg: #fdecc6;   --meh-fg: #7a5200;
+    --bad-bg: #fbdada;   --bad-fg: #8f1d1d;
+    --none-bg: #ebe7dd;  --none-fg: #6b6558;
+    --shadow: 0 1px 2px rgba(11,31,58,.08), 0 4px 14px rgba(11,31,58,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #07111f;
+      --card: #0f2038;
+      --ink: #ecf0f7;
+      --muted: #96a5ba;
+      --line: #223654;
+      --thistle: #c79df2;
+      --thistle-soft: #2a1d3f;
+      --good-bg: #123b27;  --good-fg: #8be3b0;
+      --ok-bg: #12325a;    --ok-fg: #9cc7ff;
+      --meh-bg: #4a3809;   --meh-fg: #ffd77a;
+      --bad-bg: #4a1717;   --bad-fg: #ff9e9e;
+      --none-bg: #1a2a40;  --none-fg: #8d9bb0;
+      --shadow: 0 1px 2px rgba(0,0,0,.4);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.4; font-size: 16px;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 0 14px 40px; }
+
+  /* Bold condensed headings */
+  h1, h2, h3, .cond {
+    font-family: "Avenir Next Condensed", "HelveticaNeue-CondensedBold", "Roboto Condensed",
+                 "Arial Narrow", "Oswald", Impact, sans-serif;
+    font-weight: 800; text-transform: uppercase; letter-spacing: .04em; margin: 0;
+  }
+  h2 {
+    font-size: 1.35rem; color: var(--ink); margin: 28px 0 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  /* little thistle icon before each heading */
+  .thistle {
+    flex: none; width: 16px; height: 24px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 24'%3E%3Cpath d='M8 12 V24' stroke='%232f7d57' stroke-width='2'/%3E%3Cpath d='M8 20 L3 15 M8 18 L13 13' stroke='%232f7d57' stroke-width='2' fill='none'/%3E%3Cpath d='M3 9 L8 14 L13 9 Z' fill='%232f7d57'/%3E%3Cpath d='M2 9 L3 2 M5 9 L5 1 M8 9 L8 0 M11 9 L11 1 M14 9 L13 2' stroke='%238e5ea2' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / contain;
+  }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: var(--shadow); padding: 14px;
+  }
+  .muted { color: var(--muted); }
+  .small { font-size: .85rem; }
+
+  /* ---------- Banner ---------- */
+  #banner {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--navy); color: #fff; text-align: center;
+    padding: 10px 14px 12px;
+    border-bottom: 3px solid var(--thistle);
+  }
+  #banner .msg { font-weight: 700; font-size: 1.05rem; }
+  #banner .count { font-variant-numeric: tabular-nums; font-size: .95rem; color: #d9c2f2; margin-top: 2px; }
+  /* iron railings along the bottom of the banner (Edinburgh New Town) */
+  #railings {
+    height: 10px; background:
+      repeating-linear-gradient(90deg, var(--navy) 0 3px, transparent 3px 9px);
+    -webkit-mask: linear-gradient(#000, transparent); mask: linear-gradient(#000, transparent);
+    opacity: .55;
+  }
+  .ribbon {
+    margin: 10px 0 0; padding: 6px 10px; border-radius: 8px; font-size: .85rem; text-align: center;
+    background: var(--meh-bg); color: var(--meh-fg);
+  }
+
+  /* ---------- Hero ---------- */
+  #hero {
+    margin-top: 12px; border-radius: 18px; overflow: hidden; position: relative; color: #fff;
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 70%, #3b2a66 100%);
+    padding: 22px 16px 0; text-align: center;
+  }
+  #hero .kicker { letter-spacing: .25em; font-size: .75rem; color: #d9c2f2; }
+  #hero h1 { font-size: clamp(1.6rem, 7.6vw, 3rem); line-height: 1; margin: 6px 0 12px; }
+  #hero h1 .vs { color: var(--gold); }
+  .tagline { font-style: italic; font-size: .95rem; color: #e6d8f5; margin: 0 auto 14px; max-width: 34em; }
+  .series { font-size: 3.2rem; line-height: 1; font-weight: 800; }
+  .series span { color: var(--gold); padding: 0 6px; }
+  .series-sub { font-size: .9rem; color: #d9c2f2; margin: 4px 0 14px; }
+  .tug { margin: 0 auto 6px; max-width: 520px; }
+  .tug-bar {
+    display: flex; height: 22px; border-radius: 11px; overflow: hidden;
+    background: rgba(255,255,255,.15); border: 2px solid rgba(255,255,255,.35);
+  }
+  .tug-humans { background: repeating-linear-gradient(90deg, #2f9e6b 0 14px, #38b07a 14px 28px); transition: width .6s; }
+  .tug-bot { background: repeating-linear-gradient(90deg, #8e5ea2 0 14px, #a06fb6 14px 28px); flex: 1; }
+  .tug-labels { display: flex; justify-content: space-between; font-size: .85rem; margin-top: 5px; font-weight: 600; }
+  #hero svg.stadium { display: block; width: calc(100% + 32px); margin: 8px -16px 0; height: auto; }
+  .stadium-cap {
+    background: #1f7a4d; color: #fff; margin: 0 -16px; padding: 4px 10px 6px; font-size: .72rem;
+    letter-spacing: .15em; text-transform: uppercase; font-weight: 700;
+  }
+  .logo {
+    display: block; width: 92px; height: 92px; margin: 0 auto 10px; border-radius: 18px;
+    object-fit: cover; border: 2px solid var(--gold); background: #f6efdc;
+  }
+
+  /* ---------- Picks placeholder ---------- */
+  .placeholder { text-align: center; border: 2px dashed var(--thistle); background: var(--thistle-soft); }
+  .placeholder .big { font-size: 2rem; }
+
+  /* ---------- League table ---------- */
+  table.league { width: 100%; border-collapse: collapse; }
+  .league th { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); text-align: right; padding: 0 6px 6px; font-weight: 600; }
+  .league th:nth-child(2) { text-align: left; }
+  .league td { padding: 9px 6px; border-top: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
+  .league td.pos { width: 2ch; font-weight: 800; color: var(--muted); text-align: center; }
+  .league td.who { text-align: left; font-weight: 600; }
+  .league td.total { font-weight: 800; font-size: 1.1rem; }
+  .league tr.bot td { background: var(--thistle-soft); border-top-color: var(--thistle); }
+  .league tr.bot td.who { color: var(--thistle); }
+  .arrow-up { color: #2e9e6b; } .arrow-down { color: #d64545; } .arrow-same { color: var(--muted); }
+
+  /* ---------- Chart ---------- */
+  .chart-wrap { position: relative; height: 280px; }
+
+  /* ---------- Tabs ---------- */
+  .tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+  .tab {
+    flex: 1; padding: 10px 6px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--card); color: var(--ink); cursor: pointer;
+    font: inherit; font-family: inherit; font-weight: 800; text-transform: uppercase; letter-spacing: .04em;
+  }
+  .tab[aria-selected="true"] { background: var(--navy); color: #fff; border-color: var(--thistle); box-shadow: inset 0 -3px 0 var(--thistle); }
+  .tab:focus-visible { outline: 3px solid var(--thistle); outline-offset: 2px; }
+
+  /* ---------- Match cards ---------- */
+  .match { margin-bottom: 12px; padding: 0; overflow: hidden; }
+  .match-head { padding: 12px 14px 8px; }
+  .kick { font-size: .8rem; color: var(--muted); text-align: center; }
+  .teams { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; margin-top: 4px; }
+  .team { font-weight: 800; font-size: 1.1rem; text-transform: uppercase; letter-spacing: .03em;
+          font-family: "Avenir Next Condensed", "HelveticaNeue-CondensedBold", "Roboto Condensed", "Arial Narrow", Impact, sans-serif; }
+  .team.home { text-align: right; } .team.away { text-align: left; }
+  .score { font-weight: 800; font-size: 1.5rem; font-variant-numeric: tabular-nums; background: var(--navy); color: #fff; border-radius: 8px; padding: 2px 12px; }
+  .score.due { font-size: .8rem; font-weight: 600; background: var(--none-bg); color: var(--none-fg); padding: 5px 10px; text-align: center; max-width: 110px; }
+  .botpick { background: var(--thistle-soft); border-top: 1px solid var(--line); padding: 10px 14px; font-size: .92rem; }
+  .botpick .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .botpick .why { margin-top: 4px; font-style: italic; color: var(--muted); }
+  .conf { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px; background: var(--card); border: 1px solid var(--thistle); color: var(--thistle); }
+  .picks { list-style: none; margin: 0; padding: 8px 10px 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .pick { display: flex; justify-content: space-between; align-items: center; gap: 6px; border-radius: 9px; padding: 6px 9px; font-size: .88rem; }
+  .pick .pt { font-weight: 800; }
+  .p-good { background: var(--good-bg); color: var(--good-fg); }
+  .p-ok   { background: var(--ok-bg);   color: var(--ok-fg); }
+  .p-meh  { background: var(--meh-bg);  color: var(--meh-fg); }
+  .p-bad  { background: var(--bad-bg);  color: var(--bad-fg); }
+  .p-none { background: var(--none-bg); color: var(--none-fg); }
+  .locked { padding: 10px 14px 12px; text-align: center; color: var(--muted); font-size: .9rem; }
+  @media (max-width: 380px) { .picks { grid-template-columns: 1fr; } }
+
+  /* ---------- Bot's corner ---------- */
+  .corner { display: flex; gap: 12px; align-items: flex-start; }
+  .corner .avatar { font-size: 2.6rem; line-height: 1; }
+  .bubble {
+    position: relative; background: var(--thistle-soft); border: 2px solid var(--thistle);
+    border-radius: 16px; padding: 12px 14px; flex: 1;
+  }
+  .bubble::before {
+    content: ""; position: absolute; left: -10px; top: 18px; width: 16px; height: 16px;
+    background: var(--thistle-soft); border-left: 2px solid var(--thistle); border-bottom: 2px solid var(--thistle);
+    transform: rotate(45deg);
+  }
+
+  /* ---------- Awards ---------- */
+  .awards { display: grid; gap: 10px; }
+  .award { display: flex; gap: 12px; align-items: center; }
+  .award .ico { font-size: 2rem; }
+  .award .ttl { font-size: 1.05rem; }
+  .award .who { font-weight: 700; }
+
+  footer { margin-top: 30px; text-align: center; font-size: .8rem; color: var(--muted); }
+  #error { display: none; margin-top: 14px; background: var(--bad-bg); color: var(--bad-fg); }
+</style>
+</head>
+<body>
+
+<div id="banner" role="status" aria-live="polite">
+  <div class="msg" id="banner-msg">Loading…</div>
+  <div class="count" id="banner-count"></div>
+</div>
+<div id="railings" aria-hidden="true"></div>
+
+<main>
+  <div id="error" class="card"></div>
+  <div id="ribbons"></div>
+
+  <!-- 1. HERO -->
+  <section id="hero" aria-label="Humans versus the Bot">
+    <img class="logo" src="images/neighbourhood-watch-logo.webp" alt="The Neighbourhood Watch — est. 2025">
+    <div class="kicker cond">The Neighbourhood Watch presents · Nations Championship 2026</div>
+    <h1>Watchmen <span class="vs">VS</span> AI Bot</h1>
+    <p class="tagline">Can the Neighbourhood Watch’s combined rugby brainpower beat an AI agent with access to a billion data points and no Scotland rugby bias?</p>
+    <div class="series" id="series">0<span>–</span>0</div>
+    <div class="series-sub" id="series-sub">Best of three rounds</div>
+    <div class="tug">
+      <div class="tug-bar" role="img" id="tug-bar" aria-label="Total points tug of war">
+        <div class="tug-humans" id="tug-humans" style="width:50%"></div>
+        <div class="tug-bot"></div>
+      </div>
+      <div class="tug-labels"><span id="tug-h">👥 Humans 0</span><span id="tug-b">0 Bot 🤖</span></div>
+      <div class="small" style="color:#d9c2f2;margin-top:2px">Total points: humans = the median player each round</div>
+    </div>
+    <!-- Murrayfield Stadium: the enclosed bowl, sweeping white roof, blue seats and rugby posts -->
+    <svg class="stadium" viewBox="0 0 400 130" role="img" aria-label="Illustration of Murrayfield Stadium, Edinburgh">
+      <defs>
+        <linearGradient id="mf-pitch" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3aa56f"/><stop offset="1" stop-color="#1f7a4d"/>
+        </linearGradient>
+        <path id="mf-curve" d="M70 82 Q200 56 330 82"/>
+      </defs>
+      <!-- Pentland Hills behind -->
+      <path d="M0 78 Q50 40 110 62 T230 50 T330 58 T400 48 V130 H0 Z" fill="#2a4a78" opacity=".7"/>
+      <!-- Two sweeping white roofs, with little flags on top -->
+      <path d="M6 66 Q200 22 394 66 L394 78 Q200 36 6 78 Z" fill="#f2f5fa"/>
+      <path d="M6 78 Q200 36 394 78" fill="none" stroke="#c9d3e3" stroke-width="2"/>
+      <g stroke="#e8edf5" stroke-width="1.4">
+        <line x1="90" y1="50" x2="90" y2="38"/><line x1="200" y1="29" x2="200" y2="16"/><line x1="310" y1="50" x2="310" y2="38"/>
+      </g>
+      <g fill="#2d5ea8">
+        <path d="M90 38 h12 v7 h-12 z"/><path d="M200 16 h12 v7 h-12 z"/><path d="M310 38 h12 v7 h-12 z"/>
+      </g>
+      <g stroke="#fff" stroke-width="1.2"><path d="M90 38 l12 7 M102 38 l-12 7 M200 16 l12 7 M212 16 l-12 7 M310 38 l12 7 M322 38 l-12 7"/></g>
+      <!-- Upper tier (thistle-and-blue seating) with the name on it -->
+      <path d="M6 78 Q200 36 394 78 L394 100 Q200 62 6 100 Z" fill="#1d3d78"/>
+      <path d="M6 86 Q200 45 394 86 M6 93 Q200 54 394 93" fill="none" stroke="#4a6fb0" stroke-width="1.5" stroke-dasharray="2 2.5"/>
+      <text font-family="Impact, 'Arial Narrow', sans-serif" font-size="12" letter-spacing="3" fill="#fff" text-anchor="middle">
+        <textPath href="#mf-curve" startOffset="50%">MURRAYFIELD</textPath>
+      </text>
+      <!-- Lower tier -->
+      <path d="M0 100 Q200 62 400 100 L400 112 Q200 78 0 112 Z" fill="#2c5aa0"/>
+      <path d="M0 106 Q200 70 400 106" fill="none" stroke="#6f93cf" stroke-width="1.3" stroke-dasharray="2 2.5"/>
+      <!-- Pitch with rugby posts -->
+      <path d="M0 112 Q200 78 400 112 V130 H0 Z" fill="url(#mf-pitch)"/>
+      <path d="M0 118 Q200 90 400 118 M0 124 Q200 102 400 124" fill="none" stroke="#fff" stroke-width="1" opacity=".5"/>
+      <g stroke="#ffd45c" stroke-width="2.6" stroke-linecap="round">
+        <path d="M180 126 V96 M220 126 V96 M180 112 H220"/>
+      </g>
+    </svg>
+    <div class="stadium-cap">Murrayfield Stadium · Edinburgh</div>
+  </section>
+
+  <!-- 2. MAKE YOUR PICKS -->
+  <h2><span class="thistle"></span>Make your picks</h2>
+  <section class="card placeholder" id="picks-card">
+    <div class="big">✍️</div>
+    <div class="cond" style="font-size:1.1rem">Pick entry coming soon</div>
+    <div class="muted small">Choose your name, enter your scores, hit send. We'll build this next.</div>
+  </section>
+
+  <!-- 3. LEAGUE TABLE -->
+  <h2><span class="thistle"></span>The league table</h2>
+  <section class="card" id="league"></section>
+
+  <!-- 4. CHART -->
+  <h2><span class="thistle"></span>Points race</h2>
+  <section class="card">
+    <div class="chart-wrap"><canvas id="chart" role="img" aria-label="Line chart of running point totals for each player and the Bot"></canvas></div>
+    <div id="chart-note" class="muted small" style="text-align:center"></div>
+  </section>
+
+  <!-- 5. ROUNDS -->
+  <h2><span class="thistle"></span>The rounds</h2>
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div id="matches"></div>
+
+  <!-- 6. BOT'S CORNER -->
+  <h2><span class="thistle"></span>The Bot's Corner</h2>
+  <section class="card corner" id="corner"></section>
+
+  <!-- 7. AWARDS -->
+  <h2><span class="thistle"></span>Weekly awards</h2>
+  <section class="awards" id="awards"></section>
+
+  <!-- 8. FOOTER -->
+  <footer>
+    <div id="updated">Last updated: …</div>
+    <div>All times are UK time. A fun project for friends — no logins, no stakes.</div>
+  </footer>
+</main>
+
+<script src="scoring.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // ================= Time (with the ?now= test switch) =================
+  var testNow = new URLSearchParams(location.search).get('now');
+  var clockOffset = 0;        // how far our pretend clock is from the real one
+  if (testNow) {
+    var s = testNow.trim();
+    if (s.length === 10) s += 'T00:00';
+    if (!/(Z|[+-]\d\d:?\d\d)$/i.test(s) || /^\d{4}-\d\d-\d\dT\d\d:\d\d$/.test(s)) s += 'Z';  // UK = UTC in November
+    var t = Date.parse(s);
+    if (!isNaN(t)) clockOffset = t - Date.now(); else testNow = null;
+  }
+  function now() { return Date.now() + clockOffset; }
+
+  var LONDON = 'Europe/London';
+  function fmt(ms, opts) {
+    return new Intl.DateTimeFormat('en-GB', Object.assign({ timeZone: LONDON }, opts)).format(new Date(ms));
+  }
+  function weekday(ms) { return fmt(ms, { weekday: 'long' }); }
+  function clock(ms) {  // "5pm", "2:10pm"
+    return fmt(ms, { hour: 'numeric', minute: '2-digit', hour12: true }).replace(' ', '').replace(':00', '').toLowerCase();
+  }
+  function dayAndTime(ms) { return fmt(ms, { weekday: 'short', day: 'numeric', month: 'short' }) + ', ' + clock(ms); }
+
+  function esc(v) {
+    return String(v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function $(id) { return document.getElementById(id); }
+
+  // ================= Load the data =================
+  var FILES = ['players', 'rounds', 'fixtures', 'predictions', 'bot_predictions', 'results', 'bot_commentary'];
+  var lastModified = 0;
+
+  function loadFile(name) {
+    return fetch('data/' + name + '.json', { cache: 'no-store' }).then(function (res) {
+      if (!res.ok) throw new Error('Could not load data/' + name + '.json (' + res.status + ')');
+      var lm = Date.parse(res.headers.get('Last-Modified') || '');
+      if (!isNaN(lm) && lm > lastModified) lastModified = lm;
+      return res.json();
+    });
+  }
+
+  Promise.all(FILES.map(loadFile)).then(function (all) {
+    var raw = {};
+    FILES.forEach(function (n, i) { raw[n] = all[i]; });
+    start(raw);
+  }).catch(function (e) {
+    var box = $('error');
+    box.style.display = 'block';
+    box.innerHTML = '<strong>Oops — the page could not load its data.</strong><br>' + esc(e.message) +
+      '<br><span class="small">If you opened this file by double-clicking it, try the web address instead — browsers block data files on file:// pages.</span>';
+    $('banner-msg').textContent = 'Something went wrong';
+  });
+
+  // ================= Work everything out =================
+  function start(raw) {
+    var humans = raw.players.players;
+    var bot = raw.players.bot;
+    var rounds = raw.rounds.rounds;
+    var fixtures = raw.fixtures.fixtures;
+    var fixtureById = {};
+    fixtures.forEach(function (f) { fixtureById[f.id] = f; });
+
+    // Only show things that could really exist by "now" (this is what lets ?now= preview each stage):
+    //  - picks and Bot predictions appear once that round's picks window has closed
+    //  - a result appears once that match has kicked off
+    var closeByMatch = {};
+    rounds.forEach(function (r) { r.match_ids.forEach(function (id) { closeByMatch[id] = Date.parse(r.picks_close); }); });
+    function afterClose(p) { return closeByMatch[p.match_id] <= now(); }
+    raw.predictions.predictions = raw.predictions.predictions.filter(afterClose);
+    raw.bot_predictions.predictions = raw.bot_predictions.predictions.filter(afterClose);
+    raw.results.results = raw.results.results.filter(function (r) {
+      return fixtureById[r.match_id] && Date.parse(fixtureById[r.match_id].kickoff) <= now();
+    });
+
+    var lb = BeatTheBot.buildLeaderboard({
+      players: humans,
+      rounds: rounds,
+      predictions: raw.predictions.predictions,
+      botPredictions: raw.bot_predictions.predictions,
+      results: raw.results.results
+    });
+
+    var anyFake = FILES.some(function (n) { return raw[n]._fake; });
+    var ctx = {
+      raw: raw, humans: humans, bot: bot, rounds: rounds, fixtures: fixtures, fixtureById: fixtureById, lb: lb,
+      resultById: {}, botById: {}, pickByKey: {}
+    };
+    raw.results.results.forEach(function (r) { if (r.verified === true) ctx.resultById[r.match_id] = { home: r.home_score, away: r.away_score }; });
+    raw.bot_predictions.predictions.forEach(function (p) { ctx.botById[p.match_id] = p; });
+    raw.predictions.predictions.forEach(function (p) { ctx.pickByKey[p.player + '|' + p.match_id] = { home: p.home_score, away: p.away_score }; });
+
+    // Ribbons
+    var ribbons = '';
+    if (testNow) ribbons += '<div class="ribbon">🧪 Test mode: pretending it is ' + esc(dayAndTime(now())) + ' (UK)</div>';
+    if (anyFake) ribbons += '<div class="ribbon">⚠️ Showing FAKE test data for Round 4 — not real results</div>';
+    $('ribbons').innerHTML = ribbons;
+
+    var focusIndex = pickFocusRound(ctx);
+    renderHero(ctx);
+    renderLeague(ctx);
+    renderChart(ctx);
+    renderTabs(ctx, focusIndex);
+    renderCorner(ctx, focusIndex);
+    renderAwards(ctx);
+    renderFooter();
+
+    renderBanner(ctx, focusIndex);
+    setInterval(function () { renderBanner(ctx, focusIndex); }, 1000);
+
+    // Redraw the chart when the phone flips between light and dark
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { renderChart(ctx); });
+    }
+  }
+
+  // The "current" round = the latest round whose picks window has opened (or Round 4 before that).
+  function pickFocusRound(ctx) {
+    var idx = 0;
+    ctx.rounds.forEach(function (r, i) { if (Date.parse(r.picks_open) <= now()) idx = i; });
+    return idx;
+  }
+
+  function botHasPicksFor(ctx, roundObj) {
+    return roundObj.match_ids.some(function (id) { return ctx.botById[id]; });
+  }
+
+  // ================= Banner =================
+  function stageFor(ctx, idx) {
+    var r = ctx.rounds[idx], lbr = ctx.lb.rounds[idx], n = now();
+    var open = Date.parse(r.picks_open), close = Date.parse(r.picks_close), due = Date.parse(r.results_expected);
+    var kicks = r.match_ids.map(function (id) { return Date.parse(ctx.fixtureById[id].kickoff); });
+    var firstKick = Math.min.apply(null, kicks);
+    var label = 'Round ' + r.round;
+
+    if (n < open) return { msg: label + ' picks open ' + weekday(open), target: open, prefix: 'Opens in ' };
+    if (n < close) return { msg: 'Picks close ' + weekday(close) + ' ' + clock(close), target: close, prefix: 'Closes in ' };
+    if (lbr.complete) {
+      var next = ctx.rounds[idx + 1];
+      if (next) return { msg: label + ' results are in!', target: Date.parse(next.picks_open), prefix: 'Round ' + next.round + ' picks open in ' };
+      return { msg: label + ' results are in! That\'s the series done.', target: null };
+    }
+    if (n < firstKick) {
+      if (botHasPicksFor(ctx, r)) return { msg: 'Picks locked: see who backed what', target: firstKick, prefix: 'Kick-off in ' };
+      return { msg: 'Picks locked: the Bot is thinking…', target: firstKick, prefix: 'Kick-off in ' };
+    }
+    if (n < due) return { msg: 'Games this weekend: results ' + weekday(due), target: due, prefix: 'Results in ' };
+    return { msg: label + ': waiting for the results to be confirmed…', target: null };
+  }
+
+  function countdownText(ms) {
+    if (ms < 0) ms = 0;
+    var total = Math.floor(ms / 1000);
+    var d = Math.floor(total / 86400), h = Math.floor(total % 86400 / 3600),
+        m = Math.floor(total % 3600 / 60), s = total % 60;
+    var out = '';
+    if (d) out += d + 'd ';
+    out += h + 'h ' + m + 'm ' + s + 's';
+    return out;
+  }
+
+  function renderBanner(ctx, idx) {
+    var st = stageFor(ctx, idx);
+    $('banner-msg').textContent = st.msg;
+    $('banner-count').textContent = st.target ? st.prefix + countdownText(st.target - now()) : '';
+  }
+
+  // ================= Hero =================
+  function renderHero(ctx) {
+    var s = ctx.lb.series;
+    $('series').innerHTML = s.humanWins + '<span>–</span>' + s.botWins;
+    var sub = 'Best of three rounds · Humans first';
+    if (s.winner === 'humans') sub = '🏆 Humans win the series' + (s.decidedBy === 'total points' ? ' on total points' : '') + '!';
+    else if (s.winner === 'bot') sub = '🤖 The Bot wins the series' + (s.decidedBy === 'total points' ? ' on total points' : '') + '!';
+    else if (s.winner === 'tie') sub = 'The series is a dead heat!';
+    $('series-sub').textContent = sub;
+
+    // Tug of war: humans' median points vs the Bot's points, over every round with results in
+    var h = 0, b = 0;
+    ctx.lb.rounds.forEach(function (r) { if (r.matchesScored > 0) { h += r.humanMedian; b += r.botPoints; } });
+    var pct = (h + b) === 0 ? 50 : Math.round(h / (h + b) * 100);
+    $('tug-humans').style.width = pct + '%';
+    $('tug-h').textContent = '👥 Humans ' + h;
+    $('tug-b').textContent = b + ' Bot 🤖';
+    $('tug-bar').setAttribute('aria-label', 'Total points: humans ' + h + ', Bot ' + b);
+  }
+
+  // ================= League table =================
+  function rankList(entries) {          // entries: [{name, total}] -> {name: rank}, ties share a rank
+    var sorted = entries.slice().sort(function (a, b) { return b.total - a.total; });
+    var ranks = {};
+    sorted.forEach(function (e, i) {
+      ranks[e.name] = (i > 0 && e.total === sorted[i - 1].total) ? ranks[sorted[i - 1].name] : i + 1;
+    });
+    return ranks;
+  }
+
+  function renderLeague(ctx) {
+    var lb = ctx.lb;
+    var scoredRounds = lb.rounds.filter(function (r) { return r.matchesScored > 0; });
+    var last = scoredRounds[scoredRounds.length - 1];
+
+    var rows = ctx.humans.map(function (p) {
+      return { name: p.name, emoji: p.emoji, isBot: false,
+               total: lb.standings.filter(function (s) { return s.name === p.name; })[0].total,
+               lastPts: last ? last.playerPoints[p.name] : null };
+    });
+    rows.push({ name: ctx.bot.name, emoji: ctx.bot.emoji, isBot: true, total: lb.botTotal, lastPts: last ? last.botPoints : null });
+
+    var ranksNow = rankList(rows);
+    var ranksBefore = null;
+    if (scoredRounds.length > 1) {
+      ranksBefore = rankList(rows.map(function (r) { return { name: r.name, total: r.total - r.lastPts }; }));
+    }
+    rows.sort(function (a, b) { return b.total - a.total || (a.isBot ? 1 : 0) - (b.isBot ? 1 : 0); });
+
+    var html = '<table class="league"><thead><tr><th></th><th>Player</th><th>Total</th><th>' +
+      (last ? 'Rd ' + last.round + (last.complete ? '' : '*') : 'Last') + '</th><th></th></tr></thead><tbody>';
+    rows.forEach(function (r) {
+      var arrow = '<span class="arrow-same" title="No change">–</span>';
+      if (ranksBefore) {
+        if (ranksNow[r.name] < ranksBefore[r.name]) arrow = '<span class="arrow-up" title="Moved up">▲</span>';
+        else if (ranksNow[r.name] > ranksBefore[r.name]) arrow = '<span class="arrow-down" title="Moved down">▼</span>';
+      }
+      html += '<tr class="' + (r.isBot ? 'bot' : '') + '"><td class="pos">' + ranksNow[r.name] + '</td>' +
+        '<td class="who">' + esc(r.emoji) + ' ' + esc(r.name) + (r.isBot ? ' <span class="small muted">(the machine)</span>' : '') + '</td>' +
+        '<td class="total">' + r.total + '</td>' +
+        '<td>' + (r.lastPts === null ? '–' : '+' + r.lastPts) + '</td><td>' + arrow + '</td></tr>';
+    });
+    html += '</tbody></table>';
+    if (last && !last.complete) html += '<div class="small muted" style="margin-top:6px">* Round ' + last.round + ' still in progress</div>';
+    if (!last) html += '<div class="small muted" style="margin-top:6px">No results yet — everyone starts on zero.</div>';
+    $('league').innerHTML = html;
+  }
+
+  // ================= Chart =================
+  var chartInstance = null;
+  function renderChart(ctx) {
+    var note = $('chart-note');
+    if (typeof Chart === 'undefined') { note.textContent = 'The chart could not load (Chart.js did not download).'; return; }
+    var css = getComputedStyle(document.documentElement);
+    var text = css.getPropertyValue('--muted').trim(), grid = css.getPropertyValue('--line').trim(), ink = css.getPropertyValue('--ink').trim();
+
+    var lb = ctx.lb;
+    var labels = ['Start'].concat(lb.rounds.map(function (r) { return 'Round ' + r.round; }));
+    function running(getPts) {      // everyone starts on 0, then add each round that has results
+      var sum = 0;
+      return [0].concat(lb.rounds.map(function (r) {
+        if (r.matchesScored === 0) return null;
+        sum += getPts(r); return sum;
+      }));
+    }
+    var palette = ['#e4572e', '#f2a900', '#2e9e6b', '#2a9df4', '#e84a9b', '#9a6b3f'];
+    var datasets = ctx.humans.map(function (p, i) {
+      return { label: p.emoji + ' ' + p.name, data: running(function (r) { return r.playerPoints[p.name]; }),
+               borderColor: palette[i % palette.length], backgroundColor: palette[i % palette.length],
+               borderWidth: 2.5, pointRadius: 4, tension: .25, spanGaps: false };
+    });
+    datasets.push({ label: ctx.bot.emoji + ' ' + ctx.bot.name, data: running(function (r) { return r.botPoints; }),
+                    borderColor: ink, backgroundColor: ink, borderWidth: 3.5, borderDash: [8, 5], pointRadius: 4, tension: .25 });
+
+    var anyData = lb.rounds.some(function (r) { return r.matchesScored > 0; });
+    note.textContent = anyData ? '' : 'The lines will appear once the first results are in.';
+    if (chartInstance) chartInstance.destroy();
+    chartInstance = new Chart($('chart'), {
+      type: 'line',
+      data: { labels: labels, datasets: datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'nearest', intersect: false },
+        plugins: { legend: { position: 'bottom', labels: { color: text, usePointStyle: true, boxWidth: 8 } } },
+        scales: {
+          x: { ticks: { color: text }, grid: { color: grid } },
+          y: { beginAtZero: true, ticks: { color: text, precision: 0 }, grid: { color: grid }, title: { display: true, text: 'Running total', color: text } }
+        }
+      }
+    });
+  }
+
+  // ================= Round tabs and match cards =================
+  function ptsClass(pts) { return pts >= 6 ? 'p-good' : pts >= 4 ? 'p-ok' : pts >= 1 ? 'p-meh' : 'p-bad'; }
+
+  function renderTabs(ctx, focusIndex) {
+    var tabs = $('tabs');
+    tabs.innerHTML = ctx.rounds.map(function (r, i) {
+      return '<button class="tab" role="tab" data-i="' + i + '" aria-selected="' + (i === focusIndex) + '">Round ' + r.round + '</button>';
+    }).join('');
+    function select(i) {
+      Array.prototype.forEach.call(tabs.children, function (b) { b.setAttribute('aria-selected', String(+b.dataset.i === i)); });
+      renderMatches(ctx, i);
+    }
+    tabs.addEventListener('click', function (e) {
+      var b = e.target.closest('.tab'); if (b) select(+b.dataset.i);
+    });
+    select(focusIndex);
+  }
+
+  function renderMatches(ctx, idx) {
+    var r = ctx.rounds[idx];
+    var revealed = botHasPicksFor(ctx, r);
+    var due = Date.parse(r.results_expected);
+    var html = '';
+    r.match_ids.forEach(function (id) {
+      var f = ctx.fixtureById[id], actual = ctx.resultById[id], bp = ctx.botById[id];
+      var homeWon = actual && actual.home > actual.away, awayWon = actual && actual.away > actual.home;
+
+      html += '<article class="card match"><div class="match-head">' +
+        '<div class="kick">' + esc(dayAndTime(Date.parse(f.kickoff))) + '</div>' +
+        '<div class="teams"><div class="team home">' + esc(f.home) + '</div>' +
+        (actual ? '<div class="score">' + actual.home + ' – ' + actual.away + '</div>'
+                : '<div class="score due">Result due ' + esc(weekday(due)) + '</div>') +
+        '<div class="team away">' + esc(f.away) + '</div></div></div>';
+
+      if (bp) {
+        var bpPts = actual ? BeatTheBot.scoreMatch({ home: bp.home_score, away: bp.away_score }, actual).points : null;
+        html += '<div class="botpick"><div class="row"><span>🤖 <strong>Bot picks ' + esc(f.home) + ' ' + bp.home_score + ' – ' + bp.away_score + ' ' + esc(f.away) + '</strong></span>' +
+          '<span>' + (bp.confidence ? '<span class="conf">' + esc(bp.confidence) + '</span> ' : '') +
+          (bpPts === null ? '' : '<strong class="' + 'pick ' + ptsClass(bpPts) + '" style="padding:2px 8px">+' + bpPts + '</strong>') + '</span></div>' +
+          (bp.rationale ? '<div class="why">“' + esc(bp.rationale) + '”</div>' : '') + '</div>';
+      }
+
+      if (!revealed) {
+        html += '<div class="locked">🔒 Everyone\'s picks are revealed once the Bot has made its predictions.</div>';
+      } else {
+        html += '<ul class="picks">';
+        ctx.humans.forEach(function (p) {
+          var pick = ctx.pickByKey[p.name + '|' + id];
+          var label = esc(p.emoji) + ' ' + esc(p.name);
+          if (!pick) {
+            html += '<li class="pick p-none"><span>' + label + '</span><span>no pick' + (actual ? ' · <span class="pt">0</span>' : '') + '</span></li>';
+          } else {
+            var pts = actual ? BeatTheBot.scoreMatch(pick, actual).points : null;
+            html += '<li class="pick ' + (pts === null ? 'p-ok' : ptsClass(pts)) + '"><span>' + label + '</span><span>' +
+              pick.home + '–' + pick.away + (pts === null ? '' : ' · <span class="pt">+' + pts + '</span>') + '</span></li>';
+          }
+        });
+        html += '</ul>';
+      }
+      html += '</article>';
+    });
+    $('matches').innerHTML = html;
+  }
+
+  // ================= Bot's Corner =================
+  function renderCorner(ctx, focusIndex) {
+    var list = ctx.raw.bot_commentary.commentary || [];
+    var maxRound = ctx.rounds[focusIndex].round;
+    var best = null;
+    list.forEach(function (c) { if (c.round <= maxRound && (!best || c.round > best.round)) best = c; });
+    var text = best ? best.text : 'Beep. I am warming up my predictions. Humans, enjoy this peace while it lasts.';
+    $('corner').innerHTML = '<div class="avatar" aria-hidden="true">🤖</div><div class="bubble"><div class="cond small muted" style="margin-bottom:4px">' +
+      (best ? 'Round ' + best.round : 'Warm-up') + '</div>' + esc(text) + '</div>';
+  }
+
+  // ================= Weekly awards =================
+  function renderAwards(ctx) {
+    var done = ctx.lb.rounds.filter(function (r) { return r.complete; });
+    var box = $('awards');
+    if (!done.length) {
+      box.innerHTML = '<div class="card muted">Awards appear once all of a round\'s results are in.</div>';
+      return;
+    }
+    var r = done[done.length - 1], a = r.awards;
+    function names(arr) { return arr.map(function (n) {
+      var p = ctx.humans.filter(function (h) { return h.name === n; })[0];
+      return (p ? esc(p.emoji) + ' ' : '') + esc(n);
+    }).join(', '); }
+
+    var closest = '<span class="muted">No picks to judge</span>';
+    if (a.closestCall) {
+      var f = ctx.fixtureById[a.closestCall.match_id];
+      closest = '<span class="who">' + names(a.closestCall.players) + '</span><div class="small muted">' + esc(f.home) + ' v ' + esc(f.away) + ' — ' +
+        (a.closestCall.error === 0 ? 'spot on!' : 'only ' + a.closestCall.error + ' point' + (a.closestCall.error === 1 ? '' : 's') + ' out in total') + '</div>';
+    }
+    box.innerHTML =
+      '<div class="small muted cond">Round ' + r.round + '</div>' +
+      '<div class="card award"><div class="ico">🏆</div><div><div class="ttl cond">Round Winner</div>' +
+        (a.roundWinner.length ? '<span class="who">' + names(a.roundWinner) + '</span><div class="small muted">' + r.playerPoints[a.roundWinner[0]] + ' points</div>' : '<span class="muted">Nobody scored!</span>') + '</div></div>' +
+      '<div class="card award"><div class="ico">🎯</div><div><div class="ttl cond">Closest Call</div>' + closest + '</div></div>' +
+      '<div class="card award"><div class="ico">⚔️</div><div><div class="ttl cond">Bot Slayers</div>' +
+        (a.botSlayers.length ? '<span class="who">' + names(a.botSlayers) + '</span><div class="small muted">Beat the Bot\'s ' + r.botPoints + ' points</div>'
+                             : '<span class="muted">Nobody beat the Bot this round (' + r.botPoints + ' pts)</span>') + '</div></div>';
+  }
+
+  // ================= Footer =================
+  function renderFooter() {
+    $('updated').textContent = lastModified ? 'Last updated: ' + dayAndTime(lastModified) : 'Last updated: unknown';
+  }
+})();
+</script>
+</body>
+</html>

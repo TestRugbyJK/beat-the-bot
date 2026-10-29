@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Beat the Bot — scoring tests</title>
+<style>
+  :root { --bg: #ffffff; --fg: #1a1a1a; --muted: #666; --line: #ddd; --ok: #1a8a3a; --bad: #c62828; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14171a; --fg: #eaeaea; --muted: #9aa; --line: #333; --ok: #4cd171; --bad: #ff6b6b; }
+  }
+  body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--fg); margin: 0; padding: 16px; max-width: 720px; margin-inline: auto; }
+  h1 { font-size: 1.3rem; }
+  #summary { font-weight: 700; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 12px; }
+  .test { display: flex; gap: 10px; padding: 8px 4px; border-bottom: 1px solid var(--line); align-items: flex-start; }
+  .mark { font-size: 1.2rem; width: 1.5em; flex: none; }
+  .pass .mark { color: var(--ok); }
+  .fail .mark { color: var(--bad); }
+  .name { font-weight: 600; }
+  .detail { color: var(--muted); font-size: 0.85rem; margin-top: 2px; word-break: break-word; }
+  h2 { font-size: 1rem; margin: 18px 0 4px; color: var(--muted); }
+</style>
+</head>
+<body>
+<h1>Scoring tests</h1>
+<div id="summary">Running…</div>
+<div id="out"></div>
+
+<script src="scoring.js"></script>
+<script>
+  // If scoring.js could not be loaded (e.g. the page was opened on its own, away from its folder),
+  // say so clearly instead of showing 33 confusing red crosses.
+  if (typeof BeatTheBot === 'undefined') {
+    var s = document.getElementById('summary');
+    s.textContent = 'Could not load scoring.js, so no tests were run. Open tests.html straight from the beat-the-bot folder (double-click it) so it can find scoring.js beside it.';
+    s.style.color = 'var(--bad)';
+    throw new Error('scoring.js not loaded');
+  }
+
+  // Shorthand: a score like p(27, 23) means home 27, away 23.
+  function p(h, a) { return { home: h, away: a }; }
+  function pts(pred, actual) { return BeatTheBot.scoreMatch(pred, actual).points; }
+
+  // ---- A small made-up round for the leaderboard tests ----
+  // Actual result: 20-10. Player picks give these points: A=8, B=6, C=4, D=4, E=none (0), F=1.
+  // Sorted: 0,1,4,4,6,8 -> median 4.
+  var names = ['A', 'B', 'C', 'D', 'E', 'F'];
+  var playerList = names.map(function (n) { return { name: n, emoji: '' }; });
+  var humanScores = { A: [20, 10], B: [25, 10], C: [30, 10], D: [30, 10], F: [10, 20] };
+
+  // Builds data for rounds 4, 5, 6 — one match each (ids r4, r5, r6).
+  // botScores[i] is the Bot's pick for round i; resultsIn[i] false = no result yet.
+  function makeData(botScores, resultsIn) {
+    var data = { players: playerList, rounds: [], predictions: [], botPredictions: [], results: [] };
+    [4, 5, 6].forEach(function (r, i) {
+      var id = 'r' + r;
+      data.rounds.push({ round: r, match_ids: [id] });
+      Object.keys(humanScores).forEach(function (n) {
+        data.predictions.push({ player: n, match_id: id, home_score: humanScores[n][0], away_score: humanScores[n][1] });
+      });
+      if (botScores[i]) data.botPredictions.push({ match_id: id, home_score: botScores[i][0], away_score: botScores[i][1] });
+      if (!resultsIn || resultsIn[i]) data.results.push({ match_id: id, home_score: 20, away_score: 10, verified: true });
+    });
+    return data;
+  }
+  // Bot pick worth 8 points = [20,10]; worth 4 = [30,10]; worth 1 = [10,20]; none = null (0)
+  var B8 = [20, 10], B4 = [30, 10], B1 = [10, 20];
+
+  var tests = [
+    // ---- Single match: actual Scotland 24-20 NZ unless stated ----
+    ['Correct winner (and nothing else) = 3', 'single', function () { return [pts(p(60, 3), p(24, 20)), 3]; }],
+    ['Wrong winner = 0', 'single', function () { return [pts(p(3, 60), p(24, 20)), 0]; }],
+    ['Draw predicted correctly (exact margin + total close) = 8', 'single', function () { return [pts(p(18, 18), p(15, 15)), 8]; }],
+    ['Draw predicted, but the match had a winner = 1 (only total close)', 'single', function () { return [pts(p(18, 18), p(24, 20)), 1]; }],
+    ['Winner picked, but the match was a draw = 1 (only total close)', 'single', function () { return [pts(p(20, 18), p(15, 15)), 1]; }],
+    ['Exact margin: 3 + 2 + 2 = 7 (total far off)', 'single', function () { return [pts(p(34, 30), p(24, 20)), 7]; }],
+    ['Margin within 5: 3 + 2 = 5 (total far off)', 'single', function () { return [pts(p(40, 33), p(24, 20)), 5]; }],
+    ['Margin off by 6 gets no margin bonus = 3', 'single', function () { return [pts(p(60, 50), p(24, 20)), 3]; }],
+    ['Total within 10 (exactly 10 off) = +1 even with wrong winner', 'single', function () { return [pts(p(22, 32), p(24, 20)), 1]; }],
+    ['Total 11 off = no bonus', 'single', function () { return [pts(p(22, 33), p(24, 20)), 0]; }],
+    ['Player who did not submit = 0', 'single', function () { return [pts(null, p(24, 20)), 0]; }],
+    ['Worked example: Scotland 27-23 scores 8', 'single', function () { return [pts(p(27, 23), p(24, 20)), 8]; }],
+    ['Worked example: Scotland 30-17 scores 4', 'single', function () { return [pts(p(30, 17), p(24, 20)), 4]; }],
+    ['Worked example: NZ 28-21 scores 1', 'single', function () { return [pts(p(21, 28), p(24, 20)), 1]; }],
+
+    // ---- Leaderboard ----
+    ['Round points: A=8, B=6, C=4, D=4, E (no picks)=0, F=1', 'board', function () {
+      var r = BeatTheBot.buildLeaderboard(makeData([B4, B4, B4])).rounds[0];
+      return [r.playerPoints, { A: 8, B: 6, C: 4, D: 4, E: 0, F: 1 }];
+    }],
+    ['Player who did not submit is flagged and scores 0', 'board', function () {
+      var r = BeatTheBot.buildLeaderboard(makeData([B4, B4, B4])).rounds[0];
+      return [[r.submitted.E, r.playerPoints.E], [false, 0]];
+    }],
+    ['Totals over 3 rounds: A=24, E=0', 'board', function () {
+      var s = BeatTheBot.buildLeaderboard(makeData([B4, B4, B4])).standings;
+      return [[s[0].name, s[0].total, s[5].name, s[5].total], ['A', 24, 'E', 0]];
+    }],
+    ['Median of six players (0,1,4,4,6,8) = 4', 'board', function () { return [BeatTheBot.median([8, 6, 4, 4, 0, 1]), 4]; }],
+    ['Median of an even list averages the middle two (1,4 -> 2.5)', 'board', function () { return [BeatTheBot.median([0, 1, 4, 8]), 2.5]; }],
+    ['Bot 8 vs median 4: Bot wins the round', 'board', function () {
+      return [BeatTheBot.buildLeaderboard(makeData([B8, B4, B4])).rounds[0].winner, 'bot'];
+    }],
+    ['Bot 1 vs median 4: Humans win the round', 'board', function () {
+      return [BeatTheBot.buildLeaderboard(makeData([B1, B4, B4])).rounds[0].winner, 'humans'];
+    }],
+    ['Bot 4 vs median 4: round is a tie', 'board', function () {
+      return [BeatTheBot.buildLeaderboard(makeData([B4, B4, B4])).rounds[0].winner, 'tie'];
+    }],
+    ['Series: Bot wins 2 rounds to 1 -> Bot wins the series', 'board', function () {
+      var s = BeatTheBot.buildLeaderboard(makeData([B8, B1, B8])).series;
+      return [[s.botWins, s.humanWins, s.winner, s.decidedBy], [2, 1, 'bot', 'rounds']];
+    }],
+    ['Series: Humans win 2 rounds -> Humans win the series', 'board', function () {
+      var s = BeatTheBot.buildLeaderboard(makeData([B1, B1, B8])).series;
+      return [[s.humanWins, s.winner], [2, 'humans']];
+    }],
+    ['Series level 1-1 (one tied round): total points break it (Bot 13 v 12)', 'board', function () {
+      var s = BeatTheBot.buildLeaderboard(makeData([B8, B1, B4])).series;
+      return [[s.botWins, s.humanWins, s.botTotal, s.humanMedianTotal, s.winner, s.decidedBy], [1, 1, 13, 12, 'bot', 'total points']];
+    }],
+    ['Series level 1-1 and equal totals (12 v 12) = tie', 'board', function () {
+      var s = BeatTheBot.buildLeaderboard(makeData([B8, null, B4])).series;
+      return [[s.botTotal, s.humanMedianTotal, s.winner], [12, 12, 'tie']];
+    }],
+    ['Only some results in: round is not complete and has no winner yet', 'board', function () {
+      var r = BeatTheBot.buildLeaderboard(makeData([B4, B4, B4], [true, false, false])).rounds;
+      return [[r[0].complete, r[1].complete, r[1].winner, r[1].playerPoints.A, r[1].matchesScored], [true, false, null, 0, 0]];
+    }],
+    ['Round with 2 matches, 1 result in: only the finished match is scored', 'board', function () {
+      var data = {
+        players: playerList,
+        rounds: [{ round: 4, match_ids: ['x1', 'x2'] }],
+        predictions: [
+          { player: 'A', match_id: 'x1', home_score: 20, away_score: 10 },
+          { player: 'A', match_id: 'x2', home_score: 20, away_score: 10 }
+        ],
+        botPredictions: [],
+        results: [
+          { match_id: 'x1', home_score: 20, away_score: 10, verified: true },
+          { match_id: 'x2', home_score: 20, away_score: 10, verified: false }
+        ]
+      };
+      var r = BeatTheBot.buildLeaderboard(data).rounds[0];
+      return [[r.complete, r.matchesScored, r.playerPoints.A, r.winner], [false, 1, 8, null]];
+    }],
+    ['Series is undecided until rounds are finished', 'board', function () {
+      var s = BeatTheBot.buildLeaderboard(makeData([B8, B4, B4], [true, false, false])).series;
+      return [[s.botWins, s.winner], [1, null]];
+    }],
+
+    // ---- Weekly awards (Bot scores 4 this round) ----
+    ['Award: Round Winner = A (8 points)', 'awards', function () {
+      return [BeatTheBot.buildLeaderboard(makeData([B4, B4, B4])).rounds[0].awards.roundWinner, ['A']];
+    }],
+    ['Award: Closest Call = A (picked the score exactly)', 'awards', function () {
+      var c = BeatTheBot.buildLeaderboard(makeData([B4, B4, B4])).rounds[0].awards.closestCall;
+      return [[c.players, c.error], [['A'], 0]];
+    }],
+    ['Award: Bot Slayers = A and B (beat the Bot\'s 4)', 'awards', function () {
+      return [BeatTheBot.buildLeaderboard(makeData([B4, B4, B4])).rounds[0].awards.botSlayers, ['A', 'B']];
+    }],
+    ['No awards until the round is complete', 'awards', function () {
+      return [BeatTheBot.buildLeaderboard(makeData([B4, B4, B4], [false, false, false])).rounds[0].awards, null];
+    }]
+  ];
+
+  // ---- Run them and draw the page ----
+  var out = document.getElementById('out');
+  var passed = 0;
+  var lastGroup = '';
+  var groupTitles = { single: 'One match', board: 'Leaderboard and Humans vs Bot', awards: 'Weekly awards' };
+
+  tests.forEach(function (t) {
+    var name = t[0], group = t[1], fn = t[2];
+    var got, want, ok, err = '';
+    try {
+      var r = fn();
+      got = r[0]; want = r[1];
+      ok = JSON.stringify(got) === JSON.stringify(want);
+    } catch (e) { ok = false; err = String(e); }
+
+    if (group !== lastGroup) {
+      var h = document.createElement('h2');
+      h.textContent = groupTitles[group];
+      out.appendChild(h);
+      lastGroup = group;
+    }
+    if (ok) passed++;
+    var row = document.createElement('div');
+    row.className = 'test ' + (ok ? 'pass' : 'fail');
+    var detail = ok ? '' : (err || 'Expected ' + JSON.stringify(want) + ' but got ' + JSON.stringify(got));
+    row.innerHTML = '<div class="mark">' + (ok ? '✅' : '❌') + '</div><div><div class="name"></div><div class="detail"></div></div>';
+    row.querySelector('.name').textContent = name;
+    row.querySelector('.detail').textContent = detail;
+    out.appendChild(row);
+  });
+
+  var summary = document.getElementById('summary');
+  summary.textContent = passed + ' of ' + tests.length + ' tests passed' + (passed === tests.length ? ' 🎉' : ' — see the red crosses');
+  summary.style.color = passed === tests.length ? 'var(--ok)' : 'var(--bad)';
+</script>
+</body>
+</html>

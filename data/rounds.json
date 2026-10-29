@@ -1,0 +1,25 @@
+{
+  "rounds": [
+    {
+      "round": 4,
+      "picks_open": "2026-11-03T00:00:00Z",
+      "picks_close": "2026-11-05T17:00:00Z",
+      "results_expected": "2026-11-09T07:00:00Z",
+      "match_ids": ["r4-m1", "r4-m2", "r4-m3", "r4-m4", "r4-m5", "r4-m6"]
+    },
+    {
+      "round": 5,
+      "picks_open": "2026-11-10T00:00:00Z",
+      "picks_close": "2026-11-12T17:00:00Z",
+      "results_expected": "2026-11-16T07:00:00Z",
+      "match_ids": ["r5-m1", "r5-m2", "r5-m3", "r5-m4", "r5-m5", "r5-m6"]
+    },
+    {
+      "round": 6,
+      "picks_open": "2026-11-17T00:00:00Z",
+      "picks_close": "2026-11-19T17:00:00Z",
+      "results_expected": "2026-11-23T07:00:00Z",
+      "match_ids": ["r6-m1", "r6-m2", "r6-m3", "r6-m4", "r6-m5", "r6-m6"]
+    }
+  ]
+}

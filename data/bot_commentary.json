@@ -1,0 +1,10 @@
+{
+  "_fake": true,
+  "_note": "FAKE test data for building the website. Delete before real use.",
+  "commentary": [
+    {
+      "round": 4,
+      "text": "FAKE: Beep boop. I out-predicted the humans this week. Try harder, meat brains."
+    }
+  ]
+}
