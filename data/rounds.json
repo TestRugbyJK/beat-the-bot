@@ -2,7 +2,7 @@
   "rounds": [
     {
       "round": 4,
-      "picks_open": "2026-11-03T00:00:00Z",
+      "picks_open": "2026-11-02T19:54:00Z",
       "picks_close": "2026-11-05T17:00:00Z",
       "results_expected": "2026-11-09T07:00:00Z",
       "match_ids": ["r4-m1", "r4-m2", "r4-m3", "r4-m4", "r4-m5", "r4-m6"]
