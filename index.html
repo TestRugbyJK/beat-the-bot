@@ -103,13 +103,15 @@
     background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 70%, #3b2a66 100%);
     padding: 22px 16px 0; text-align: center;
   }
-  #hero .kicker { letter-spacing: .25em; font-size: .75rem; color: #d9c2f2; }
-  #hero h1 { font-size: clamp(1.6rem, 7.6vw, 3rem); line-height: 1; margin: 6px 0 12px; }
+  #hero .kicker { letter-spacing: .2em; font-size: .8rem; color: #d9c2f2; margin-bottom: 8px; }
+  #hero h1 { font-size: clamp(1.5rem, 7vw, 2.6rem); line-height: 1.05; margin: 0 0 12px; }
   #hero h1 .vs { color: var(--gold); }
   .tagline { font-style: italic; font-size: .95rem; color: #e6d8f5; margin: 0 auto 14px; max-width: 34em; }
   .series { font-size: 3.2rem; line-height: 1; font-weight: 800; }
   .series span { color: var(--gold); padding: 0 6px; }
-  .series-sub { font-size: .9rem; color: #d9c2f2; margin: 4px 0 14px; }
+  .series-sub { font-size: .9rem; color: #d9c2f2; margin: 4px 0 0; }
+  .series-sub:empty { display: none; }
+  .series { margin-bottom: 14px; }
   .tug { margin: 0 auto 6px; max-width: 520px; }
   .tug-bar {
     display: flex; height: 22px; border-radius: 11px; overflow: hidden;
@@ -127,6 +129,12 @@
     display: block; width: 92px; height: 92px; margin: 0 auto 10px; border-radius: 18px;
     object-fit: cover; border: 2px solid var(--gold); background: #f6efdc;
   }
+
+  /* ---------- How does it work (compact) ---------- */
+  .how { margin-top: 12px; padding: 10px 12px; border: 2px dashed var(--thistle); background: var(--thistle-soft); font-size: .88rem; }
+  .how-title { display: flex; align-items: center; gap: 8px; font-size: 1rem; margin-bottom: 4px; }
+  .how ul { margin: 0; padding-left: 1.1em; }
+  .how li { margin-bottom: 3px; line-height: 1.35; }
 
   /* ---------- Make your picks ---------- */
   #picks-card { border: 2px dashed var(--thistle); background: var(--thistle-soft); }
@@ -254,19 +262,18 @@
 
   <!-- 1. HERO -->
   <section id="hero" aria-label="Humans versus the Bot">
+    <h1>The Neighbourhood Watch <span class="vs">VS</span> AI</h1>
     <img class="logo" src="images/neighbourhood-watch-logo.webp" alt="The Neighbourhood Watch — est. 2025">
-    <div class="kicker cond">Nations Cup 2026 - The Neighbourhood Watch Predictions</div>
-    <h1>The Watch <span class="vs">vs</span> AI Bot</h1>
+    <div class="kicker cond">Nations Cup 2026 Predictions</div>
     <p class="tagline">Can the Neighbourhood Watch’s collective rugby knowledge outsmart an AI with unlimited brainpower?</p>
     <div class="series" id="series">0<span>–</span>0</div>
-    <div class="series-sub" id="series-sub">Best of three rounds</div>
+    <div class="series-sub" id="series-sub"></div>
     <div class="tug">
       <div class="tug-bar" role="img" id="tug-bar" aria-label="Total points tug of war">
         <div class="tug-humans" id="tug-humans" style="width:50%"></div>
         <div class="tug-bot"></div>
       </div>
       <div class="tug-labels"><span id="tug-h">👥 Humans 0</span><span id="tug-b">0 Bot 🤖</span></div>
-      <div class="small" style="color:#d9c2f2;margin-top:2px">Total points: humans = the median player each round</div>
     </div>
     <!-- Murrayfield Stadium: the enclosed bowl, sweeping white roof, blue seats and rugby posts -->
     <svg class="stadium" viewBox="0 0 400 130" role="img" aria-label="Illustration of Murrayfield Stadium, Edinburgh">
@@ -305,6 +312,16 @@
       </g>
     </svg>
     <div class="stadium-cap">Murrayfield Stadium · Edinburgh</div>
+  </section>
+
+  <!-- HOW DOES IT WORK (compact) -->
+  <section class="card how" id="how" aria-label="How does it work?">
+    <div class="how-title cond"><span class="thistle"></span>How does it work?</div>
+    <ul>
+      <li><strong>Pick:</strong> Tue – Thu 5pm, a score for each of the weekend's six games. The Bot predicts <em>blind</em>, then all picks are revealed.</li>
+      <li><strong>Score</strong> (max 8 a match): <strong>3</strong> right winner · <strong>+2</strong> margin within 5 (<strong>+2</strong> more if exact) · <strong>+1</strong> total within 10.</li>
+      <li><strong>Win:</strong> each round the Bot's points face the Watch's <em>middle</em> score. Win 2 of 3 rounds to take the series.</li>
+    </ul>
   </section>
 
   <!-- 2. MAKE YOUR PICKS -->
@@ -686,7 +703,7 @@
   function renderHero(ctx) {
     var s = ctx.lb.series;
     $('series').innerHTML = s.humanWins + '<span>–</span>' + s.botWins;
-    var sub = 'Best of three rounds · Humans first';
+    var sub = '';   // only says something once the series is decided
     if (s.winner === 'humans') sub = '🏆 Humans win the series' + (s.decidedBy === 'total points' ? ' on total points' : '') + '!';
     else if (s.winner === 'bot') sub = '🤖 The Bot wins the series' + (s.decidedBy === 'total points' ? ' on total points' : '') + '!';
     else if (s.winner === 'tie') sub = 'The series is a dead heat!';
