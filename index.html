@@ -106,7 +106,15 @@
   #hero .kicker { letter-spacing: .2em; font-size: .8rem; color: #d9c2f2; margin-bottom: 8px; }
   #hero h1 { font-size: clamp(1.5rem, 7vw, 2.6rem); line-height: 1.05; margin: 0 0 12px; }
   #hero h1 .vs { color: var(--gold); }
-  .tagline { font-style: italic; font-size: .95rem; color: #e6d8f5; margin: 0 auto 14px; max-width: 34em; }
+  .speech {
+    position: relative; margin: 14px auto 10px; max-width: 30em; text-align: left;
+    background: #fff; color: #14203a; border-radius: 16px; padding: 10px 14px;
+    font-style: italic; font-size: .95rem; line-height: 1.35; box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  }
+  .speech::after {   /* the little tail, pointing down at the speaker on the left */
+    content: ""; position: absolute; left: 18%; bottom: -9px; width: 18px; height: 18px;
+    background: #fff; transform: rotate(45deg); border-radius: 0 0 4px 0;
+  }
   .series { font-size: 3.2rem; line-height: 1; font-weight: 800; }
   .series span { color: var(--gold); padding: 0 6px; }
   .series-sub { font-size: .9rem; color: #d9c2f2; margin: 4px 0 0; }
@@ -262,10 +270,9 @@
 
   <!-- 1. HERO -->
   <section id="hero" aria-label="Humans versus the Bot">
-    <h1>The Neighbourhood Watch <span class="vs">VS</span> AI</h1>
+    <h1>The Watch <span class="vs">VS</span> AI Bot</h1>
     <img class="logo" src="images/neighbourhood-watch-logo.webp" alt="The Neighbourhood Watch — est. 2025">
     <div class="kicker cond">Nations Cup 2026 Predictions</div>
-    <p class="tagline">Can the Neighbourhood Watch’s collective rugby knowledge outsmart an AI with unlimited brainpower?</p>
     <div class="series" id="series">0<span>–</span>0</div>
     <div class="series-sub" id="series-sub"></div>
     <div class="tug">
@@ -275,9 +282,26 @@
       </div>
       <div class="tug-labels"><span id="tug-h">👥 Humans 0</span><span id="tug-b">0 Bot 🤖</span></div>
     </div>
+    <!-- Two members of the Watch chatting on the Murrayfield pitch; the left one asks the big question -->
+    <div class="speech">Can the Neighbourhood Watch’s collective rugby knowledge outsmart an AI with unlimited brainpower?</div>
     <!-- Murrayfield Stadium: the enclosed bowl, sweeping white roof, blue seats and rugby posts -->
-    <svg class="stadium" viewBox="0 0 400 130" role="img" aria-label="Illustration of Murrayfield Stadium, Edinburgh">
+    <svg class="stadium" viewBox="0 0 400 130" role="img" aria-label="Illustration of Murrayfield Stadium, Edinburgh, with two members of the Neighbourhood Watch chatting on the pitch">
       <defs>
+        <g id="watchman">
+          <rect x="-4.5" y="-6" width="3" height="6" fill="#e8c9a0"/>
+          <rect x="1.5" y="-6" width="3" height="6" fill="#e8c9a0"/>
+          <path d="M-7 -13 L7 -13 L8 -6 L-8 -6 Z" fill="#b5482f"/>
+          <path d="M-7 -13 L7 -13 L8 -6 L-8 -6 Z" fill="none" stroke="#1d2a4a" stroke-width=".7" stroke-dasharray="1.2 1.2"/>
+          <rect x="-7" y="-28" width="14" height="16" rx="3" fill="#1d3a6e"/>
+          <path d="M-7 -26 L7 -14 L7 -19 L-2 -27 Z" fill="#b5482f"/>
+          <circle cx="0" cy="-33" r="5" fill="#e8c9a0"/>
+          <path d="M-6 -35 Q0 -44 6 -35 Z" fill="#1d3a6e"/>
+          <rect x="-6" y="-36.6" width="12" height="2" fill="#b5482f"/>
+          <circle cx="0" cy="-41.4" r="1.3" fill="#b5482f"/>
+          <path d="M5 -25 L12 -29" stroke="#1d3a6e" stroke-width="3" stroke-linecap="round"/>
+          <rect x="11" y="-36" width="5" height="8" rx="1" fill="#f2b632"/>
+          <rect x="11" y="-37.6" width="5" height="2.6" rx="1" fill="#fff"/>
+        </g>
         <linearGradient id="mf-pitch" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#3aa56f"/><stop offset="1" stop-color="#1f7a4d"/>
         </linearGradient>
@@ -310,6 +334,8 @@
       <g stroke="#ffd45c" stroke-width="2.6" stroke-linecap="round">
         <path d="M180 126 V96 M220 126 V96 M180 112 H220"/>
       </g>
+      <use href="#watchman" transform="translate(88 126) scale(1.2)"/>
+      <use href="#watchman" transform="translate(312 126) scale(-1.2 1.2)"/>
     </svg>
     <div class="stadium-cap">Murrayfield Stadium · Edinburgh</div>
   </section>
