@@ -51,13 +51,19 @@
 
   // Builds data for rounds 4, 5, 6 — one match each (ids r4, r5, r6).
   // botScores[i] is the Bot's pick for round i; resultsIn[i] false = no result yet.
-  function makeData(botScores, resultsIn) {
+  // perfectLastRound = true makes everyone nail the Round 6 score (so the humans' median that round is 8).
+  function makeData(botScores, resultsIn, perfectLastRound) {
     var data = { players: playerList, rounds: [], predictions: [], botPredictions: [], results: [] };
     [4, 5, 6].forEach(function (r, i) {
       var id = 'r' + r;
       data.rounds.push({ round: r, match_ids: [id] });
-      Object.keys(humanScores).forEach(function (n) {
-        data.predictions.push({ player: n, match_id: id, home_score: humanScores[n][0], away_score: humanScores[n][1] });
+      var picks = humanScores;
+      if (perfectLastRound && i === 2) {
+        picks = {};
+        names.forEach(function (n) { picks[n] = [20, 10]; });
+      }
+      Object.keys(picks).forEach(function (n) {
+        data.predictions.push({ player: n, match_id: id, home_score: picks[n][0], away_score: picks[n][1] });
       });
       if (botScores[i]) data.botPredictions.push({ match_id: id, home_score: botScores[i][0], away_score: botScores[i][1] });
       if (!resultsIn || resultsIn[i]) data.results.push({ match_id: id, home_score: 20, away_score: 10, verified: true });
@@ -108,19 +114,23 @@
     ['Bot 4 vs median 4: round is a tie', 'board', function () {
       return [BeatTheBot.buildLeaderboard(makeData([B4, B4, B4])).rounds[0].winner, 'tie'];
     }],
-    ['Series: Bot wins 2 rounds to 1 -> Bot wins the series', 'board', function () {
+    ['Series: most points after 3 rounds wins. Bot 17 v humans 12 -> Bot', 'board', function () {
       var s = BeatTheBot.buildLeaderboard(makeData([B8, B1, B8])).series;
-      return [[s.botWins, s.humanWins, s.winner, s.decidedBy], [2, 1, 'bot', 'rounds']];
+      return [[s.botTotal, s.humanMedianTotal, s.winner, s.decidedBy], [17, 12, 'bot', 'total points']];
     }],
-    ['Series: Humans win 2 rounds -> Humans win the series', 'board', function () {
+    ['Series: Bot 10 v humans 12 -> Humans', 'board', function () {
       var s = BeatTheBot.buildLeaderboard(makeData([B1, B1, B8])).series;
-      return [[s.humanWins, s.winner], [2, 'humans']];
+      return [[s.botTotal, s.humanMedianTotal, s.winner], [10, 12, 'humans']];
     }],
-    ['Series level 1-1 (one tied round): total points break it (Bot 13 v 12)', 'board', function () {
+    ['Series: Bot 13 v humans 12 (one round tied) -> Bot', 'board', function () {
       var s = BeatTheBot.buildLeaderboard(makeData([B8, B1, B4])).series;
-      return [[s.botWins, s.humanWins, s.botTotal, s.humanMedianTotal, s.winner, s.decidedBy], [1, 1, 13, 12, 'bot', 'total points']];
+      return [[s.botTotal, s.humanMedianTotal, s.winner], [13, 12, 'bot']];
     }],
-    ['Series level 1-1 and equal totals (12 v 12) = tie', 'board', function () {
+    ['Series: humans win on points even after losing 2 of 3 rounds (Bot 13 v humans 16)', 'board', function () {
+      var s = BeatTheBot.buildLeaderboard(makeData([[25, 10], [25, 10], B1], null, true)).series;
+      return [[s.botWins, s.humanWins, s.botTotal, s.humanMedianTotal, s.winner], [2, 1, 13, 16, 'humans']];
+    }],
+    ['Series: equal points (12 v 12) = tie', 'board', function () {
       var s = BeatTheBot.buildLeaderboard(makeData([B8, null, B4])).series;
       return [[s.botTotal, s.humanMedianTotal, s.winner], [12, 12, 'tie']];
     }],

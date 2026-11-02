@@ -161,9 +161,18 @@ var BeatTheBot = (function () {
       });
     });
 
-    // ---------- Humans vs Bot series (best of three rounds) ----------
-    var humanWins = 0, botWins = 0, completeRounds = 0, humanMedianTotal = 0, botCompleteTotal = 0;
+    // ---------- Humans vs Bot series ----------
+    // Each round: the Bot's points are set against the humans' MEDIAN. The series winner is whoever
+    // has the most points after ALL the rounds: the Bot's total vs the humans' medians added up.
+    // (Rounds won are still counted for interest, but they do not decide the series.)
+    var humanWins = 0, botWins = 0, completeRounds = 0;
+    var humanMedianTotal = 0, botCompleteTotal = 0;   // complete rounds only: these decide the series
+    var humanPointsSoFar = 0, botPointsSoFar = 0;     // every round with results in: for showing live scores
     rounds.forEach(function (r) {
+      if (r.matchesScored > 0) {
+        humanPointsSoFar += r.humanMedian;
+        botPointsSoFar += r.botPoints;
+      }
       if (!r.complete) return;
       completeRounds++;
       humanMedianTotal += r.humanMedian;
@@ -174,13 +183,11 @@ var BeatTheBot = (function () {
 
     var seriesWinner = null;
     var decidedBy = null;
-    if (humanWins >= 2) { seriesWinner = 'humans'; decidedBy = 'rounds'; }
-    else if (botWins >= 2) { seriesWinner = 'bot'; decidedBy = 'rounds'; }
-    else if (completeRounds >= 3) {
-      // Tiebreak: total points (Bot's total vs the humans' round medians added up)
-      if (botCompleteTotal > humanMedianTotal) { seriesWinner = 'bot'; decidedBy = 'total points'; }
-      else if (botCompleteTotal < humanMedianTotal) { seriesWinner = 'humans'; decidedBy = 'total points'; }
-      else { seriesWinner = 'tie'; decidedBy = 'total points'; }
+    if (rounds.length > 0 && completeRounds === rounds.length) {
+      decidedBy = 'total points';
+      if (botCompleteTotal > humanMedianTotal) seriesWinner = 'bot';
+      else if (botCompleteTotal < humanMedianTotal) seriesWinner = 'humans';
+      else seriesWinner = 'tie';
     }
 
     var standings = players.map(function (n) { return { name: n, total: totals[n] }; })
@@ -195,6 +202,8 @@ var BeatTheBot = (function () {
         botWins: botWins,
         humanMedianTotal: humanMedianTotal,
         botTotal: botCompleteTotal,
+        humanPointsSoFar: humanPointsSoFar,
+        botPointsSoFar: botPointsSoFar,
         winner: seriesWinner,
         decidedBy: decidedBy
       }

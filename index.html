@@ -107,13 +107,13 @@
   #hero h1 { font-size: clamp(1.5rem, 7vw, 2.6rem); line-height: 1.05; margin: 0 0 12px; }
   #hero h1 .vs { color: var(--gold); }
   .speech {
-    position: relative; margin: 14px auto 10px; max-width: 30em; text-align: left;
+    position: relative; z-index: 1; margin: 14px auto -6px; max-width: 30em; text-align: left;
     background: #fff; color: #14203a; border-radius: 16px; padding: 10px 14px;
     font-style: italic; font-size: .95rem; line-height: 1.35; box-shadow: 0 2px 8px rgba(0,0,0,.25);
   }
-  .speech::after {   /* the little tail, pointing down at the speaker on the left */
-    content: ""; position: absolute; left: 18%; bottom: -9px; width: 18px; height: 18px;
-    background: #fff; transform: rotate(45deg); border-radius: 0 0 4px 0;
+  .speech::after {   /* the tail: from the bottom-left corner, angled down toward the piper on the left */
+    content: ""; position: absolute; left: 12px; bottom: -22px; width: 40px; height: 24px;
+    background: #fff; clip-path: polygon(0 0, 70% 0, 100% 100%);
   }
   .series { font-size: 3.2rem; line-height: 1; font-weight: 800; }
   .series span { color: var(--gold); padding: 0 6px; }
@@ -285,7 +285,7 @@
     <!-- Two members of the Watch chatting on the Murrayfield pitch; the left one asks the big question -->
     <div class="speech">Can the Neighbourhood Watch’s collective rugby knowledge outsmart an AI with unlimited brainpower?</div>
     <!-- Murrayfield Stadium: the enclosed bowl, sweeping white roof, blue seats and rugby posts -->
-    <svg class="stadium" viewBox="0 0 400 130" role="img" aria-label="Illustration of Murrayfield Stadium, Edinburgh, with two members of the Neighbourhood Watch chatting on the pitch">
+    <svg class="stadium" viewBox="0 -14 400 144" role="img" aria-label="Illustration of Murrayfield Stadium, Edinburgh, with two members of the Neighbourhood Watch playing bagpipes on the roof">
       <defs>
         <g id="watchman">
           <rect x="-4.5" y="-6" width="3" height="6" fill="#e8c9a0"/>
@@ -298,9 +298,17 @@
           <path d="M-6 -35 Q0 -44 6 -35 Z" fill="#1d3a6e"/>
           <rect x="-6" y="-36.6" width="12" height="2" fill="#b5482f"/>
           <circle cx="0" cy="-41.4" r="1.3" fill="#b5482f"/>
-          <path d="M5 -25 L12 -29" stroke="#1d3a6e" stroke-width="3" stroke-linecap="round"/>
-          <rect x="11" y="-36" width="5" height="8" rx="1" fill="#f2b632"/>
-          <rect x="11" y="-37.6" width="5" height="2.6" rx="1" fill="#fff"/>
+          <g stroke="#5a3320" stroke-width="1.5" stroke-linecap="round">
+            <path d="M-2 -26 L-9 -45"/><path d="M0 -26 L-6 -47"/><path d="M2 -26 L-3 -46"/>
+          </g>
+          <g stroke="#e0b44c" stroke-width="1.9" stroke-linecap="round">
+            <path d="M-8.2 -42.5 L-8.8 -44.2"/><path d="M-5.3 -44.3 L-5.8 -46"/><path d="M-2.3 -43.4 L-2.8 -45.1"/>
+          </g>
+          <path d="M6 -23 L3.5 -31" stroke="#5a3320" stroke-width="1.3" stroke-linecap="round"/>
+          <path d="M9 -20 L12 -11" stroke="#5a3320" stroke-width="1.3" stroke-linecap="round"/>
+          <ellipse cx="4.5" cy="-22" rx="7.5" ry="4.2" transform="rotate(-15 4.5 -22)" fill="#8a2a1e"/>
+          <ellipse cx="4.5" cy="-22" rx="7.5" ry="4.2" transform="rotate(-15 4.5 -22)" fill="none" stroke="#1d5a3a" stroke-width=".9" stroke-dasharray="1.6 1.4"/>
+          <path d="M3 -27 L11 -22" stroke="#1d3a6e" stroke-width="3" stroke-linecap="round"/>
         </g>
         <linearGradient id="mf-pitch" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#3aa56f"/><stop offset="1" stop-color="#1f7a4d"/>
@@ -334,8 +342,8 @@
       <g stroke="#ffd45c" stroke-width="2.6" stroke-linecap="round">
         <path d="M180 126 V96 M220 126 V96 M180 112 H220"/>
       </g>
-      <use href="#watchman" transform="translate(88 126) scale(1.2)"/>
-      <use href="#watchman" transform="translate(312 126) scale(-1.2 1.2)"/>
+      <use href="#watchman" transform="translate(62 55) rotate(-9) scale(1.2)"/>
+      <use href="#watchman" transform="translate(338 55) rotate(9) scale(-1.2 1.2)"/>
     </svg>
     <div class="stadium-cap">Murrayfield Stadium · Edinburgh</div>
   </section>
@@ -344,9 +352,10 @@
   <section class="card how" id="how" aria-label="How does it work?">
     <div class="how-title cond"><span class="thistle"></span>How does it work?</div>
     <ul>
-      <li><strong>Pick:</strong> Tue – Thu 5pm, a score for each of the weekend's six games. The Bot predicts <em>blind</em>, then all picks are revealed.</li>
-      <li><strong>Score</strong> (max 8 a match): <strong>3</strong> right winner · <strong>+2</strong> margin within 5 (<strong>+2</strong> more if exact) · <strong>+1</strong> total within 10.</li>
-      <li><strong>Win:</strong> each round the Bot's points face the Watch's <em>middle</em> score. Win 2 of 3 rounds to take the series.</li>
+      <li><strong>Every week:</strong> from Tuesday to Thursday 5pm, each of us picks the score of all six games in the coming weekend's round. Choose your name, enter your scores and submit. You can resubmit any time before 5pm Thursday and your new picks replace the old ones.</li>
+      <li><strong>The Bot:</strong> once picks close, the Bot makes its own predictions <em>without seeing ours</em>. Then everyone's picks are revealed. The games are played Friday to Sunday, and the scores update on Monday.</li>
+      <li><strong>Scoring</strong> (max 8 a match): <strong>3</strong> for the right winner (or a draw), <strong>+2</strong> if your winning margin is within 5 points, <strong>+2</strong> more if it's exact, and <strong>+1</strong> if the match's total points are within 10.</li>
+      <li><strong>The Watch v the Bot:</strong> each round, the Bot's points are compared with the <em>median</em> score of the six of us. The winner is whoever ends up with the most points after 3 rounds.</li>
     </ul>
   </section>
 
@@ -728,7 +737,9 @@
   // ================= Hero =================
   function renderHero(ctx) {
     var s = ctx.lb.series;
-    $('series').innerHTML = s.humanWins + '<span>–</span>' + s.botWins;
+    // The big score is total points so far: the humans' round medians added up v the Bot's points
+    function pts(n) { return Number.isInteger(n) ? String(n) : n.toFixed(1); }
+    $('series').innerHTML = pts(s.humanPointsSoFar) + '<span>–</span>' + pts(s.botPointsSoFar);
     var sub = '';   // only says something once the series is decided
     if (s.winner === 'humans') sub = '🏆 Humans win the series' + (s.decidedBy === 'total points' ? ' on total points' : '') + '!';
     else if (s.winner === 'bot') sub = '🤖 The Bot wins the series' + (s.decidedBy === 'total points' ? ' on total points' : '') + '!';

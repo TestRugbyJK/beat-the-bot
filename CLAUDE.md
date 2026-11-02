@@ -43,8 +43,10 @@ The AI work (Bot predictions, finding results) is done by Claude Code itself, vi
 - Total match points within 10 of the actual total: +1
 - Maximum 8 per match. Every match counts the same.
 - No picks submitted for a round = 0 for that round.
-- Humans vs Bot: each round, the Bot's points vs the MEDIAN of the six players' points.
-  The higher side wins the round. Best of three rounds wins the series; tiebreak is total points.
+- Humans vs Bot: each round, the Bot's points are set against the MEDIAN of the six players' points.
+  The series winner is whoever has the most points after all 3 rounds: the Bot's total vs the humans'
+  three round medians added up. Equal totals = a tie. (The higher side in each round is still shown as
+  that round's winner, but rounds won do not decide the series.)
 
 ## The Bot's prediction rules (used by /thursday)
 The Bot is meant to be a tough but beatable opponent. It predicts a score for every match in the round.
