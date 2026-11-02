@@ -203,6 +203,7 @@
   .botpick { background: var(--thistle-soft); border-top: 1px solid var(--line); padding: 10px 14px; font-size: .92rem; }
   .botpick .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
   .botpick .why { margin-top: 4px; font-style: italic; color: var(--muted); }
+  .market { margin-top: 6px; font-size: .8rem; font-weight: 600; color: var(--thistle); }
   .conf { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px; background: var(--card); border: 1px solid var(--thistle); color: var(--thistle); }
   .picks { list-style: none; margin: 0; padding: 8px 10px 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
   .pick { display: flex; justify-content: space-between; align-items: center; gap: 6px; border-radius: 9px; padding: 6px 9px; font-size: .88rem; }
@@ -811,6 +812,22 @@
     select(focusIndex);
   }
 
+  // "Bookies: Scotland by 4 · Bot: Scotland by 9" — shows where the Bot went against the market.
+  function marginText(f, home, away) {
+    if (home === away) return 'a draw';
+    return (home > away ? f.home : f.away) + ' by ' + Math.abs(home - away);
+  }
+  function marketLine(f, bp) {
+    if (!bp.line) return '';
+    var bookies;
+    if (typeof bp.line === 'object' && bp.line.favourite && typeof bp.line.handicap === 'number') {
+      bookies = bp.line.handicap === 0 ? 'Level (no favourite)' : esc(bp.line.favourite) + ' by ' + bp.line.handicap;
+    } else {
+      bookies = 'no line found';
+    }
+    return '<div class="market">Bookies: ' + bookies + ' · Bot: ' + esc(marginText(f, bp.home_score, bp.away_score)) + '</div>';
+  }
+
   function renderMatches(ctx, idx) {
     var r = ctx.rounds[idx];
     var revealed = botHasPicksFor(ctx, r);
@@ -832,7 +849,8 @@
         html += '<div class="botpick"><div class="row"><span>🤖 <strong>Bot picks ' + esc(f.home) + ' ' + bp.home_score + ' – ' + bp.away_score + ' ' + esc(f.away) + '</strong></span>' +
           '<span>' + (bp.confidence ? '<span class="conf">' + esc(bp.confidence) + '</span> ' : '') +
           (bpPts === null ? '' : '<strong class="' + 'pick ' + ptsClass(bpPts) + '" style="padding:2px 8px">+' + bpPts + '</strong>') + '</span></div>' +
-          (bp.rationale ? '<div class="why">“' + esc(bp.rationale) + '”</div>' : '') + '</div>';
+          (bp.rationale ? '<div class="why">“' + esc(bp.rationale) + '”</div>' : '') +
+          marketLine(f, bp) + '</div>';
       }
 
       if (!revealed) {

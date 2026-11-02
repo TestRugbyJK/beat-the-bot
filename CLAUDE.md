@@ -46,6 +46,27 @@ The AI work (Bot predictions, finding results) is done by Claude Code itself, vi
 - Humans vs Bot: each round, the Bot's points vs the MEDIAN of the six players' points.
   The higher side wins the round. Best of three rounds wins the series; tiebreak is total points.
 
+## The Bot's prediction rules (used by /thursday)
+The Bot is meant to be a tough but beatable opponent. It predicts a score for every match in the round.
+
+Research, for each match (use web search; news previews and odds-comparison pages are fine):
+- rankings, recent form, team news, head-to-head
+- the bookmakers' handicap (the expected winning margin) and the total-points line, if published
+
+Use the line as a starting point, not the answer:
+- Start from the handicap margin, then adjust it using the Bot's own reading of team news, form and conditions.
+- Keep the predicted winning margin within about 7 points of the handicap, unless there is a strong, stated reason to go further.
+- In every round, at least 2 of the 6 matches must differ from the handicap by 3 or more points, with the reason given
+  (e.g. "bookies underrate Japan's new back row"). This stops the Bot copying the market.
+- The Bot may back the underdog to win only with a genuinely strong reason, and at most once per round.
+- Use the total-points line as a guide to how high-scoring the game will be, then adjust for teams' styles and the weather.
+- If no line can be found for a match, use its own judgement and note "no line found".
+
+Saving: each entry in bot_predictions.json holds the Bot's scores, confidence, one-line rationale and sources, plus the line:
+  "line": { "favourite": "Scotland", "handicap": 4, "total": 44.5, "source": "https://..." }
+or, if none was found, "line": "none found". (handicap = the favourite's expected winning margin; use 0 for a pick'em.)
+The website shows "Bookies: Scotland by 4 · Bot: Scotland by 9" under the Bot's pick once picks are revealed.
+
 ## Rules for Claude Code
 - The picks deadline must be enforced in the Apps Script, not just hidden on the website.
 - The Bot must never be shown human picks before making its own predictions.
