@@ -128,9 +128,42 @@
     object-fit: cover; border: 2px solid var(--gold); background: #f6efdc;
   }
 
-  /* ---------- Picks placeholder ---------- */
-  .placeholder { text-align: center; border: 2px dashed var(--thistle); background: var(--thistle-soft); }
-  .placeholder .big { font-size: 2rem; }
+  /* ---------- Make your picks ---------- */
+  #picks-card { border: 2px dashed var(--thistle); background: var(--thistle-soft); }
+  .picks-msg { text-align: center; padding: 6px 0; }
+  .picks-msg .big { font-size: 2rem; }
+  .picks-msg .cond { font-size: 1.15rem; }
+  .pcount { text-align: center; font-weight: 700; color: var(--thistle); font-variant-numeric: tabular-nums; margin-bottom: 10px; }
+  .flabel { display: block; font-weight: 700; margin-bottom: 4px; }
+  select.pname, input.score {
+    font: inherit; font-size: 1.1rem; color: var(--ink); background: var(--card);
+    border: 2px solid var(--line); border-radius: 10px;
+  }
+  select.pname { width: 100%; padding: 12px; margin-bottom: 14px; }
+  select.pname:focus, input.score:focus { outline: 3px solid var(--thistle); outline-offset: 1px; border-color: var(--thistle); }
+  .prow { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px 10px; margin-bottom: 8px; }
+  .prow .kick { margin-bottom: 4px; }
+  .pgrid { display: grid; grid-template-columns: 1fr 3.4rem auto 3.4rem 1fr; gap: 6px; align-items: center; }
+  .pgrid .pt { font-weight: 800; text-transform: uppercase; letter-spacing: .02em; font-size: .95rem; line-height: 1.1;
+               font-family: "Avenir Next Condensed", "HelveticaNeue-CondensedBold", "Roboto Condensed", "Arial Narrow", Impact, sans-serif; }
+  .pgrid .pt.h { text-align: right; } .pgrid .pt.a { text-align: left; }
+  .pgrid .dash { font-weight: 800; color: var(--muted); }
+  input.score { width: 100%; padding: 10px 0; text-align: center; font-size: 1.4rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+  button.submit {
+    display: block; width: 100%; margin-top: 12px; padding: 16px; border: 0; border-radius: 14px; cursor: pointer;
+    background: var(--navy); color: #fff; font-size: 1.3rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
+    font-family: "Avenir Next Condensed", "HelveticaNeue-CondensedBold", "Roboto Condensed", "Arial Narrow", Impact, sans-serif;
+    box-shadow: inset 0 -4px 0 var(--thistle);
+  }
+  button.submit:disabled { opacity: .6; cursor: wait; }
+  button.submit:focus-visible { outline: 3px solid var(--thistle); outline-offset: 2px; }
+  .fmsg { margin-top: 10px; padding: 10px 12px; border-radius: 10px; font-weight: 600; display: none; }
+  .fmsg.ok { display: block; background: var(--good-bg); color: var(--good-fg); }
+  .fmsg.err { display: block; background: var(--bad-bg); color: var(--bad-fg); }
+  .whos-title { font-size: 1rem; margin: 18px 0 8px; color: var(--thistle); }
+  .whosin { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .whosin li { background: var(--card); border: 1px solid var(--line); border-radius: 9px; padding: 7px 10px; display: flex; justify-content: space-between; gap: 6px; font-size: .92rem; }
+  .whosin .t { color: var(--muted); font-size: .8rem; }
 
   /* ---------- League table ---------- */
   table.league { width: 100%; border-collapse: collapse; }
@@ -275,11 +308,7 @@
 
   <!-- 2. MAKE YOUR PICKS -->
   <h2><span class="thistle"></span>Make your picks</h2>
-  <section class="card placeholder" id="picks-card">
-    <div class="big">✍️</div>
-    <div class="cond" style="font-size:1.1rem">Pick entry coming soon</div>
-    <div class="muted small">Choose your name, enter your scores, hit send. We'll build this next.</div>
-  </section>
+  <section class="card" id="picks-card" aria-live="polite"></section>
 
   <!-- 3. LEAGUE TABLE -->
   <h2><span class="thistle"></span>The league table</h2>
@@ -348,7 +377,7 @@
   function $(id) { return document.getElementById(id); }
 
   // ================= Load the data =================
-  var FILES = ['players', 'rounds', 'fixtures', 'predictions', 'bot_predictions', 'results', 'bot_commentary'];
+  var FILES = ['players', 'rounds', 'fixtures', 'predictions', 'bot_predictions', 'results', 'bot_commentary', 'config'];
   var lastModified = 0;
 
   function loadFile(name) {
@@ -418,6 +447,7 @@
 
     var focusIndex = pickFocusRound(ctx);
     renderHero(ctx);
+    initPicks(ctx, focusIndex);
     renderLeague(ctx);
     renderChart(ctx);
     renderTabs(ctx, focusIndex);
@@ -483,6 +513,172 @@
     var st = stageFor(ctx, idx);
     $('banner-msg').textContent = st.msg;
     $('banner-count').textContent = st.target ? st.prefix + countdownText(st.target - now()) : '';
+  }
+
+  // ================= Make your picks =================
+  var picksCtx = null, picksIdx = 0, picksState = null, whosInTimer = null;
+
+  function remembered(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+  function remember(key, value) { try { localStorage.setItem(key, value); } catch (e) { /* private mode: fine */ } }
+
+  function initPicks(ctx, idx) {
+    picksCtx = ctx; picksIdx = idx;
+    drawPicks();
+    setInterval(tickPicks, 1000);
+  }
+
+  // before = window not open yet, open = take picks, locked = closed, done = round finished
+  function picksStateNow() {
+    var r = picksCtx.rounds[picksIdx], n = now();
+    if (n < Date.parse(r.picks_open)) return 'before';
+    if (n < Date.parse(r.picks_close)) return 'open';
+    return picksCtx.lb.rounds[picksIdx].complete ? 'done' : 'locked';
+  }
+
+  function picksCountdown() {
+    var r = picksCtx.rounds[picksIdx], n = now(), next = picksCtx.rounds[picksIdx + 1];
+    if (picksState === 'before') return 'Opens in ' + countdownText(Date.parse(r.picks_open) - n);
+    if (picksState === 'open') return 'Picks close in ' + countdownText(Date.parse(r.picks_close) - n);
+    if (picksState === 'done' && next) return 'Round ' + next.round + ' picks open in ' + countdownText(Date.parse(next.picks_open) - n);
+    return '';
+  }
+
+  function tickPicks() {
+    if (picksStateNow() !== picksState) { drawPicks(); return; }   // e.g. the window just opened or closed
+    var el = $('picks-count');
+    if (el) el.textContent = picksCountdown();
+  }
+
+  function drawPicks() {
+    var ctx = picksCtx, r = ctx.rounds[picksIdx], card = $('picks-card');
+    picksState = picksStateNow();
+    clearInterval(whosInTimer);
+
+    if (picksState === 'open') { drawForm(card, ctx, r); return; }
+
+    var icon, title, extra = '';
+    if (picksState === 'before') {
+      icon = '🕐'; title = 'Round ' + r.round + ' picks open ' + weekday(Date.parse(r.picks_open));
+    } else if (picksState === 'locked') {
+      icon = '🔒';
+      title = botHasPicksFor(ctx, r) ? 'Picks locked: scroll down to see everyone\'s picks'
+        : 'Picks locked: the Bot reveals its picks shortly after ' + clock(Date.parse(r.picks_close)) + ' ' + weekday(Date.parse(r.picks_close));
+    } else {
+      var next = ctx.rounds[picksIdx + 1];
+      icon = '✅';
+      title = 'Round ' + r.round + ' is done' + (next ? ' — Round ' + next.round + ' picks open ' + weekday(Date.parse(next.picks_open)) : ' — that\'s the series!');
+    }
+    card.innerHTML = '<div class="picks-msg"><div class="big">' + icon + '</div><div class="cond">' + esc(title) + '</div>' +
+      '<div class="pcount" id="picks-count" style="margin:6px 0 0">' + esc(picksCountdown()) + '</div></div>';
+  }
+
+  function drawForm(card, ctx, r) {
+    var options = '<option value="">Choose your name…</option>' + ctx.humans.map(function (p) {
+      return '<option value="' + esc(p.name) + '">' + esc(p.emoji) + ' ' + esc(p.name) + '</option>';
+    }).join('');
+
+    var rows = r.match_ids.map(function (id) {
+      var f = ctx.fixtureById[id];
+      return '<div class="prow"><div class="kick">' + esc(dayAndTime(Date.parse(f.kickoff))) + '</div><div class="pgrid">' +
+        '<div class="pt h">' + esc(f.home) + '</div>' +
+        '<input class="score" inputmode="numeric" pattern="[0-9]*" maxlength="2" autocomplete="off" placeholder="–" data-match="' + esc(id) + '" data-side="home" aria-label="' + esc(f.home) + ' score">' +
+        '<div class="dash">v</div>' +
+        '<input class="score" inputmode="numeric" pattern="[0-9]*" maxlength="2" autocomplete="off" placeholder="–" data-match="' + esc(id) + '" data-side="away" aria-label="' + esc(f.away) + ' score">' +
+        '<div class="pt a">' + esc(f.away) + '</div></div></div>';
+    }).join('');
+
+    card.innerHTML =
+      '<div class="pcount" id="picks-count">' + esc(picksCountdown()) + '</div>' +
+      '<form id="picks-form" novalidate>' +
+        '<label class="flabel" for="pick-player">Who are you?</label>' +
+        '<select class="pname" id="pick-player">' + options + '</select>' + rows +
+        '<button type="submit" class="submit" id="pick-submit">Submit Round ' + r.round + ' picks</button>' +
+        '<div class="fmsg" id="pick-msg" role="status"></div>' +
+      '</form>' +
+      '<h3 class="whos-title">Who\'s in</h3><ul class="whosin" id="whosin"></ul>' +
+      '<div class="small muted" style="margin-top:8px">Changed your mind? Submit again before the deadline and your new picks replace the old ones.</div>';
+
+    var form = $('picks-form'), sel = $('pick-player'), msg = $('pick-msg');
+    var storeKey = function (name) { return 'btb_picks_' + r.round + '_' + name; };
+
+    function showMsg(kind, text) { msg.className = 'fmsg ' + kind; msg.textContent = text; }
+    function inputs() { return Array.prototype.slice.call(form.querySelectorAll('input.score')); }
+
+    // Fill the boxes with whatever this player last submitted from this device
+    function prefill() {
+      var saved = {};
+      try { saved = JSON.parse(remembered(storeKey(sel.value)) || '{}'); } catch (e) { saved = {}; }
+      inputs().forEach(function (inp) {
+        var pair = saved[inp.dataset.match];
+        inp.value = pair ? pair[inp.dataset.side === 'home' ? 0 : 1] : '';
+      });
+    }
+
+    var who = remembered('btb_player');
+    if (who && ctx.humans.some(function (p) { return p.name === who; })) { sel.value = who; prefill(); }
+    sel.addEventListener('change', function () { remember('btb_player', sel.value); prefill(); msg.className = 'fmsg'; });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var url = ctx.raw.config.apps_script_url;
+      if (!url) { showMsg('err', 'Picks are not switched on yet — the back end address is missing.'); return; }
+      if (!sel.value) { showMsg('err', 'Please choose your name first.'); sel.focus(); return; }
+
+      var picks = [], saved = {}, bad = null;
+      r.match_ids.forEach(function (id) {
+        var h = form.querySelector('input[data-match="' + id + '"][data-side="home"]');
+        var a = form.querySelector('input[data-match="' + id + '"][data-side="away"]');
+        if (!/^\d{1,2}$/.test(h.value.trim())) bad = bad || h;
+        else if (!/^\d{1,2}$/.test(a.value.trim())) bad = bad || a;
+        else { picks.push({ match_id: id, home_score: +h.value, away_score: +a.value }); saved[id] = [+h.value, +a.value]; }
+      });
+      if (bad) { showMsg('err', 'Please fill in every score with a whole number from 0 to 99.'); bad.focus(); return; }
+
+      var btn = $('pick-submit');
+      btn.disabled = true; btn.textContent = 'Sending…'; msg.className = 'fmsg';
+
+      // Sent as plain text, not application/json — Apps Script needs it this way.
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ player: sel.value, round: r.round, picks: picks })
+      }).then(function (res) { return res.json(); }).then(function (d) {
+        if (d.ok) { remember(storeKey(sel.value), JSON.stringify(saved)); refreshWhosIn(r); }
+        showMsg(d.ok ? 'ok' : 'err', (d.ok ? '✅ ' : '⚠️ ') + (d.message || (d.ok ? 'Saved!' : 'Something went wrong.')));
+      }).catch(function () {
+        showMsg('err', '⚠️ Could not reach the picks server. Check your connection and try again.');
+      }).then(function () {
+        btn.disabled = false; btn.textContent = 'Submit Round ' + r.round + ' picks';
+      });
+    });
+
+    refreshWhosIn(r);
+    whosInTimer = setInterval(function () { refreshWhosIn(r); }, 60000);
+  }
+
+  // The Who's in list: ✅ if they've submitted, ⏳ if not (names and times only — never scores)
+  function refreshWhosIn(r) {
+    var ul = $('whosin'), ctx = picksCtx;
+    if (!ul) return;
+    var url = ctx.raw.config.apps_script_url;
+    function draw(done) {
+      ul.innerHTML = ctx.humans.map(function (p) {
+        var at = done && done[p.name];
+        return '<li><span>' + (at ? '✅' : '⏳') + ' ' + esc(p.emoji) + ' ' + esc(p.name) + '</span>' +
+          (at ? '<span class="t">' + esc(clock(Date.parse(at))) + '</span>' : '') + '</li>';
+      }).join('');
+    }
+    if (!ul.children.length) draw(null);
+    if (!url) return;
+    fetch(url + '?action=whosin&round=' + r.round, { cache: 'no-store' })
+      .then(function (res) { return res.json(); })
+      .then(function (d) {
+        if (!d.ok) throw new Error(d.message);
+        var done = {};
+        d.submitted.forEach(function (s) { done[s.player] = s.submitted_at; });
+        draw(done);
+      })
+      .catch(function () { /* keep showing the last list */ });
   }
 
   // ================= Hero =================
