@@ -554,9 +554,12 @@
 
   // ================= Make your picks =================
   var picksCtx = null, picksIdx = 0, picksState = null, whosInTimer = null;
+  var picksDone = null;          // who the Google Sheet says has submitted (null until we hear back)
+  var picksPrefillHook = null;   // set by the form so "Who's in" can trigger a prefill
 
   function remembered(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
   function remember(key, value) { try { localStorage.setItem(key, value); } catch (e) { /* private mode: fine */ } }
+  function forget(key) { try { localStorage.removeItem(key); } catch (e) { /* private mode: fine */ } }
 
   function initPicks(ctx, idx) {
     picksCtx = ctx; picksIdx = idx;
@@ -641,19 +644,29 @@
     function showMsg(kind, text) { msg.className = 'fmsg ' + kind; msg.textContent = text; }
     function inputs() { return Array.prototype.slice.call(form.querySelectorAll('input.score')); }
 
-    // Fill the boxes with whatever this player last submitted from this device
-    function prefill() {
+    // Boxes start blank. They are only filled with this player's last picks if the Google Sheet
+    // confirms they have picks saved (the "Who's in" ✅). If the sheet has none, any copy kept
+    // on this device is out of date, so it is thrown away.
+    function prefill(onlyIfEmpty) {
+      if (onlyIfEmpty && inputs().some(function (inp) { return inp.value; })) return;   // don't overwrite typing
       var saved = {};
-      try { saved = JSON.parse(remembered(storeKey(sel.value)) || '{}'); } catch (e) { saved = {}; }
+      if (sel.value && picksDone) {
+        if (picksDone[sel.value]) {
+          try { saved = JSON.parse(remembered(storeKey(sel.value)) || '{}'); } catch (e) { saved = {}; }
+        } else {
+          forget(storeKey(sel.value));
+        }
+      }
       inputs().forEach(function (inp) {
         var pair = saved[inp.dataset.match];
         inp.value = pair ? pair[inp.dataset.side === 'home' ? 0 : 1] : '';
       });
     }
+    picksPrefillHook = function () { prefill(true); };   // runs each time "Who's in" refreshes
 
     var who = remembered('btb_player');
-    if (who && ctx.humans.some(function (p) { return p.name === who; })) { sel.value = who; prefill(); }
-    sel.addEventListener('change', function () { remember('btb_player', sel.value); prefill(); msg.className = 'fmsg'; });
+    if (who && ctx.humans.some(function (p) { return p.name === who; })) sel.value = who;
+    sel.addEventListener('change', function () { remember('btb_player', sel.value); prefill(false); msg.className = 'fmsg'; });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -713,7 +726,9 @@
         if (!d.ok) throw new Error(d.message);
         var done = {};
         d.submitted.forEach(function (s) { done[s.player] = s.submitted_at; });
+        picksDone = done;
         draw(done);
+        if (picksPrefillHook) picksPrefillHook();
       })
       .catch(function () { /* keep showing the last list */ });
   }
