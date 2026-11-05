@@ -1,3 +1,82 @@
 {
-  "predictions": []
+  "predictions": [
+    {
+      "match_id": "r4-m1",
+      "home_score": 23,
+      "away_score": 17,
+      "confidence": 68,
+      "rationale": "Ireland win, but without Doris, Ringrose and Conan the bookies' double-figure margin is generous. Argentina stay in touch.",
+      "line": { "favourite": "Ireland", "handicap": 10, "total": null, "source": "https://news.williamhill.com/rugby-union/nations-championship-round-4-predictions/" },
+      "sources": [
+        "https://news.williamhill.com/rugby-union/nations-championship-round-4-predictions/",
+        "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/nations-championship-round-4-betting-preview/",
+        "https://www.flashscore.com/news/nations-championship-2026-ireland-argentina-preview/4xeMc8Y9/"
+      ]
+    },
+    {
+      "match_id": "r4-m2",
+      "home_score": 12,
+      "away_score": 44,
+      "confidence": 90,
+      "rationale": "Italy are missing 16 players and have never beaten the Boks. Moerat and Willemse return. Springboks win comfortably, whatever Turin hopes.",
+      "line": { "favourite": "South Africa", "handicap": 25, "total": null, "source": "https://news.williamhill.com/rugby-union/nations-championship-round-4-predictions/" },
+      "sources": [
+        "https://news.williamhill.com/rugby-union/nations-championship-round-4-predictions/",
+        "https://briefly.co.za/sports/rugby/258061-italy-side-face-springboks-turin-16-players-missing/",
+        "https://theunderdog.news/nations-championship-round-4-preview/"
+      ]
+    },
+    {
+      "match_id": "r4-m3",
+      "home_score": 20,
+      "away_score": 25,
+      "confidence": 62,
+      "rationale": "Scotland at full strength at Murrayfield make this tight, but the All Blacks are unbeaten against them in 33. Narrow New Zealand win.",
+      "line": { "favourite": "New Zealand", "handicap": 11, "total": null, "source": "https://news.williamhill.com/rugby-union/nations-championship-round-4-predictions/" },
+      "sources": [
+        "https://news.williamhill.com/rugby-union/nations-championship-round-4-predictions/",
+        "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/nations-championship-round-4-betting-preview/",
+        "https://www.irishtimes.com/sport/rugby/2026/11/05/nations-championship-teams-scotland-at-full-strength-for-meeting-with-all-blacks-at-murrayfield/"
+      ]
+    },
+    {
+      "match_id": "r4-m4",
+      "home_score": 27,
+      "away_score": 17,
+      "confidence": 72,
+      "rationale": "Wales win, but Japan lost 24-23 last time and Wales' centres are shuffled again. Sixteen points looks too much.",
+      "line": { "favourite": "Wales", "handicap": 16, "total": null, "source": "https://news.williamhill.com/rugby-union/nations-championship-round-4-predictions/" },
+      "sources": [
+        "https://news.williamhill.com/rugby-union/nations-championship-round-4-predictions/",
+        "https://www.planetrugby.com/news/wales-team-v-japan-steve-tandys-latest-midfield-ploy-as-prem-star-passed-fit-for-nations-championship-showdown",
+        "https://www.bets.co.za/rugby/nations-championship/wales-vs-japan-predictions-20261105-0010/"
+      ]
+    },
+    {
+      "match_id": "r4-m5",
+      "home_score": 34,
+      "away_score": 20,
+      "confidence": 80,
+      "rationale": "France are injury-hit, but Lyon will be loud and Fiji's defence leaks. Comfortable win with a few Fijian tries.",
+      "line": { "favourite": "France", "handicap": 12, "total": null, "source": "https://news.williamhill.com/rugby-union/nations-championship-round-4-predictions/" },
+      "sources": [
+        "https://news.williamhill.com/rugby-union/nations-championship-round-4-predictions/",
+        "https://www.planetrugby.com/news/france-team-v-fiji-injury-ravaged-les-bleus-hand-rising-star-a-first-start-as-big-antoine-dupont-decision-made",
+        "https://allthingsrugby.com/fixtures/france_fiji_2026_11_07"
+      ]
+    },
+    {
+      "match_id": "r4-m6",
+      "home_score": 22,
+      "away_score": 17,
+      "confidence": 60,
+      "rationale": "England are thin at scrum-half and Fin Smith is a calf doubt. Australia hang around; England nick it by five.",
+      "line": { "favourite": "England", "handicap": 9, "total": null, "source": "https://news.williamhill.com/rugby-union/nations-championship-round-4-predictions/" },
+      "sources": [
+        "https://news.williamhill.com/rugby-union/nations-championship-round-4-predictions/",
+        "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/nations-championship-round-4-betting-preview/",
+        "https://www.skysports.com/rugby-union/news/13608052/fin-smith-england-pretty-optimistic-fly-half-will-be-fit-for-australia-match-at-twickenham-in-nations-championship"
+      ]
+    }
+  ]
 }
