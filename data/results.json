@@ -1,3 +1,10 @@
 {
-  "results": []
+  "results": [
+    { "match_id": "r4-m1", "home_score": 42, "away_score": 12, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/603993/league/17567", "https://rugby365.com/countries/argentina/keenan-hat-trick-inspires-ireland-to-emphatic-victory-over-argentina/"], "verified": true },
+    { "match_id": "r4-m2", "home_score": 7, "away_score": 66, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/603994/league/17567", "https://www.rugbypass.com/news/rassie-erasmus-issues-update-on-salmaan-moerats-condition-after-imperfect-bok-win/"], "verified": true },
+    { "match_id": "r4-m3", "home_score": 21, "away_score": 43, "sources": ["https://www.rugbypass.com/live/scotland-vs-new-zealand/", "https://scottishrugby.org/matches/internationals/2026-27/nations-championship/scotland-v-new-zealand-3/"], "verified": true },
+    { "match_id": "r4-m4", "home_score": 28, "away_score": 21, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/603996/league/17567", "https://www.rugbypass.com/live/wales-vs-japan/"], "verified": true },
+    { "match_id": "r4-m5", "home_score": 54, "away_score": 17, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/603997/league/17567", "https://www.rugbypass.com/live/fiji-vs-france/"], "verified": true },
+    { "match_id": "r4-m6", "home_score": 45, "away_score": 22, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/603998/league/17567", "https://www.rugbypass.com/live/england-vs-australia/"], "verified": true }
+  ]
 }
