@@ -77,6 +77,84 @@
         "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/nations-championship-round-4-betting-preview/",
         "https://www.skysports.com/rugby-union/news/13608052/fin-smith-england-pretty-optimistic-fly-half-will-be-fit-for-australia-match-at-twickenham-in-nations-championship"
       ]
+    },
+    {
+      "match_id": "r5-m1",
+      "home_score": 24,
+      "away_score": 28,
+      "confidence": 55,
+      "rationale": "Springboks edge it, but the Stade de France crowd and Dupont's switch to 10 keep France close. Etzebeth's absence trims the visitors' margin.",
+      "line": { "favourite": "South Africa", "handicap": 8.5, "total": null, "source": "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/france-v-south-africa-nations-championship-betting-preview/" },
+      "sources": [
+        "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/france-v-south-africa-nations-championship-betting-preview/",
+        "https://www.ladbrokes.com/en/news/nations-championship-weekly-predictions-round-5-2026-11-13/",
+        "https://theunderdog.news/nations-championship-round-5-preview-2026/"
+      ]
+    },
+    {
+      "match_id": "r5-m2",
+      "home_score": 16,
+      "away_score": 31,
+      "confidence": 70,
+      "rationale": "Italy have lost four from four and shipped 66 to the Boks. Argentina bounce back despite losing Montoya, and win by about fifteen.",
+      "line": { "favourite": "Argentina", "handicap": 12.5, "total": null, "source": "https://sportsbook.fanduel.com/rugby-union/nations-championship/italy-v-argentina-36297409" },
+      "sources": [
+        "https://sportsbook.fanduel.com/rugby-union/nations-championship/italy-v-argentina-36297409",
+        "https://www.bets.co.za/rugby/nations-championship/italy-vs-argentina-predictions-20261110-0015/",
+        "https://www.thestatszone.com/italy-vs-argentina-preview-prediction-2026-nations-championship-round-5-238509"
+      ]
+    },
+    {
+      "match_id": "r5-m3",
+      "home_score": 14,
+      "away_score": 44,
+      "confidence": 85,
+      "rationale": "Thirty-three points is huge for a Wales side that scored 28 against Japan. They get tries at home, but New Zealand win by thirty.",
+      "line": { "favourite": "New Zealand", "handicap": 33.5, "total": 68.5, "source": "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/nations-championship-round-5-betting-preview/" },
+      "sources": [
+        "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/nations-championship-round-5-betting-preview/",
+        "https://www.thestatszone.com/wales-vs-new-zealand-preview-prediction-2026-nations-championship-round-5-238511",
+        "https://theunderdog.news/nations-championship-round-5-preview-2026/"
+      ]
+    },
+    {
+      "match_id": "r5-m4",
+      "home_score": 41,
+      "away_score": 15,
+      "confidence": 90,
+      "rationale": "Ten England changes still leave far too much class for Japan, who lost to Wales. Thirty-one is a stretch; a comfortable twenty-six it is.",
+      "line": { "favourite": "England", "handicap": 31.5, "total": null, "source": "https://www.bets.co.za/rugby/nations-championship/england-vs-japan-predictions-20261111-0010/" },
+      "sources": [
+        "https://www.bets.co.za/rugby/nations-championship/england-vs-japan-predictions-20261111-0010/",
+        "https://www.thestatszone.com/england-vs-japan-preview-prediction-2026-nations-championship-round-5-238513",
+        "https://www.sportsmole.co.uk/rugby-union/england/preview/england-vs-japan-prediction-team-news-lineups_609012.html"
+      ]
+    },
+    {
+      "match_id": "r5-m5",
+      "home_score": 38,
+      "away_score": 14,
+      "confidence": 88,
+      "rationale": "No line found. Ireland unbeaten against Fiji in six, fresh from beating Argentina; Sheehan's absence barely dents them. Fiji winless this campaign.",
+      "line": "none found",
+      "sources": [
+        "https://www.thestatszone.com/ireland-vs-fiji-preview-prediction-2026-nations-championship-round-5-238515",
+        "https://www.irishtimes.com/sport/rugby/2026/11/13/springboks-battle-looms-large-in-andy-farrells-selection-for-fiji-clash/",
+        "https://allthingsrugby.com/fixtures/ireland_fiji_2026_11_14"
+      ]
+    },
+    {
+      "match_id": "r5-m6",
+      "home_score": 29,
+      "away_score": 19,
+      "confidence": 62,
+      "rationale": "Scotland should win, but Australia's defence leaks, so Scotland bag tries. Wallabies still score on a shaky home defence.",
+      "line": { "favourite": "Scotland", "handicap": 8, "total": null, "source": "https://www.ladbrokes.com/en/news/nations-championship-weekly-predictions-round-5-2026-11-13/" },
+      "sources": [
+        "https://www.ladbrokes.com/en/news/nations-championship-weekly-predictions-round-5-2026-11-13/",
+        "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/nations-championship-round-5-betting-preview/",
+        "https://www.freetips.com/rugby-union/scotland-vs-australia-betting-tips-20261113-0003/"
+      ]
     }
   ]
 }
