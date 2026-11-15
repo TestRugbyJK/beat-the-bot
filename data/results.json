@@ -5,6 +5,12 @@
     { "match_id": "r4-m3", "home_score": 21, "away_score": 43, "sources": ["https://www.rugbypass.com/live/scotland-vs-new-zealand/", "https://scottishrugby.org/matches/internationals/2026-27/nations-championship/scotland-v-new-zealand-3/"], "verified": true },
     { "match_id": "r4-m4", "home_score": 28, "away_score": 21, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/603996/league/17567", "https://www.rugbypass.com/live/wales-vs-japan/"], "verified": true },
     { "match_id": "r4-m5", "home_score": 54, "away_score": 17, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/603997/league/17567", "https://www.rugbypass.com/live/fiji-vs-france/"], "verified": true },
-    { "match_id": "r4-m6", "home_score": 45, "away_score": 22, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/603998/league/17567", "https://www.rugbypass.com/live/england-vs-australia/"], "verified": true }
+    { "match_id": "r4-m6", "home_score": 45, "away_score": 22, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/603998/league/17567", "https://www.rugbypass.com/live/england-vs-australia/"], "verified": true },
+    { "match_id": "r5-m1", "home_score": 21, "away_score": 19, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/603999/league/17567", "https://www.rugbypass.com/live/france-vs-south-africa/"], "verified": true },
+    { "match_id": "r5-m2", "home_score": 14, "away_score": 19, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604000/league/17567", "https://www.rugbypass.com/live/italy-vs-argentina/"], "verified": true },
+    { "match_id": "r5-m3", "home_score": 35, "away_score": 28, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604001/league/17567", "https://www.rugbypass.com/live/wales-vs-new-zealand/"], "verified": true },
+    { "match_id": "r5-m4", "home_score": 78, "away_score": 15, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604002/league/17567", "https://www.rugbypass.com/live/england-vs-japan/"], "verified": true },
+    { "match_id": "r5-m5", "home_score": 43, "away_score": 15, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604003/league/17567", "https://www.rugbypass.com/live/ireland-vs-fiji/"], "verified": true },
+    { "match_id": "r5-m6", "home_score": 15, "away_score": 12, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604004/league/17567", "https://scottishrugby.org/matches/internationals/2026-27/nations-championship/scotland-v-australia-3/"], "verified": true }
   ]
 }
