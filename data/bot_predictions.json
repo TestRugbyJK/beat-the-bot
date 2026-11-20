@@ -155,6 +155,84 @@
         "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/nations-championship-round-5-betting-preview/",
         "https://www.freetips.com/rugby-union/scotland-vs-australia-betting-tips-20261113-0003/"
       ]
+    },
+    {
+      "match_id": "r6-m1",
+      "home_score": 24,
+      "away_score": 28,
+      "confidence": 55,
+      "rationale": "Coin-flip at Twickenham. England's home crowd keeps it tight, but the Barretts and McKenzie give the All Blacks the cutting edge. New Zealand by four.",
+      "line": { "favourite": "New Zealand", "handicap": 1.5, "total": null, "source": "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/nations-championship-round-6-betting-preview/" },
+      "sources": [
+        "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/nations-championship-round-6-betting-preview/",
+        "https://www.bets.co.za/rugby/nations-championship/england-v-new-zealand-predictions-20261119-0002/",
+        "https://theunderdog.news/nations-championship-2026-round-6-preview/"
+      ]
+    },
+    {
+      "match_id": "r6-m2",
+      "home_score": 38,
+      "away_score": 12,
+      "confidence": 88,
+      "rationale": "Thirty-one is too many for a Scotland side with eleven changes and Tuipulotu and White out. Comfortable win, but not a cricket score.",
+      "line": { "favourite": "Scotland", "handicap": 31, "total": null, "source": "https://news.williamhill.com/rugby-union/nations-championship-predictions-tips-all-blacks-odds-on-to-bounce-back-against-england/" },
+      "sources": [
+        "https://news.williamhill.com/rugby-union/nations-championship-predictions-tips-all-blacks-odds-on-to-bounce-back-against-england/",
+        "https://www.bets.co.za/rugby/nations-championship/scotland-vs-japan-predictions-20261118-0006/",
+        "https://theunderdog.news/nations-championship-2026-round-6-preview/"
+      ]
+    },
+    {
+      "match_id": "r6-m3",
+      "home_score": 24,
+      "away_score": 30,
+      "confidence": 58,
+      "rationale": "Ireland at home with Keenan's 50th cap will make this closer than ten. Etzebeth's return gives the Boks the edge up front, just.",
+      "line": { "favourite": "South Africa", "handicap": 10, "total": null, "source": "https://news.williamhill.com/rugby-union/nations-championship-predictions-tips-all-blacks-odds-on-to-bounce-back-against-england/" },
+      "sources": [
+        "https://news.williamhill.com/rugby-union/nations-championship-predictions-tips-all-blacks-odds-on-to-bounce-back-against-england/",
+        "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/ireland-v-south-africa-nations-championship-betting-preview/",
+        "https://www.planetrugby.com/news/ireland-v-south-africa-prediction-rassie-less-springboks-to-blast-to-dublin-victory-amid-farrells-bravest-call"
+      ]
+    },
+    {
+      "match_id": "r6-m4",
+      "home_score": 24,
+      "away_score": 18,
+      "confidence": 60,
+      "rationale": "Two winless sides. Italy have home advantage in Udine and a debutant fly-half, but Fiji's attack is dangerous. Narrow Italian win.",
+      "line": { "favourite": "Italy", "handicap": 5.5, "total": null, "source": "https://sportsbook.fanduel.com/rugby-union/nations-championship/italy-v-fiji-36327107" },
+      "sources": [
+        "https://sportsbook.fanduel.com/rugby-union/nations-championship/italy-v-fiji-36327107",
+        "https://rugby365.com/countries/fiji/preview-italy-v-fiji/",
+        "https://theunderdog.news/nations-championship-2026-round-6-preview/"
+      ]
+    },
+    {
+      "match_id": "r6-m5",
+      "home_score": 27,
+      "away_score": 24,
+      "confidence": 52,
+      "rationale": "My underdog pick: Wales beat New Zealand, have beaten Australia twice running, are at home, and the Wallabies lost to Scotland.",
+      "line": { "favourite": "Australia", "handicap": 4.5, "total": 59.5, "source": "https://www.bets.co.za/rugby/nations-championship/wales-vs-australia-predictions-20261119-0012/" },
+      "sources": [
+        "https://www.bets.co.za/rugby/nations-championship/wales-vs-australia-predictions-20261119-0012/",
+        "https://betbrothers.uk/betting-tips/wales-australia-nations-championship-2026/",
+        "https://herald.wales/national-news/sport/wainwright-and-adams-return-as-wales-target-third-straight-victory-against-australia/"
+      ]
+    },
+    {
+      "match_id": "r6-m6",
+      "home_score": 33,
+      "away_score": 15,
+      "confidence": 85,
+      "rationale": "France need a bonus point and have Dupont and Jalibert back. Argentina's seven changes mean a comfortable home win, nearer eighteen than twenty.",
+      "line": { "favourite": "France", "handicap": 19.5, "total": null, "source": "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/nations-championship-round-6-betting-preview/" },
+      "sources": [
+        "https://sportsnews.worldsportsbetting.co.za/sports/rugby/international-rugby/nations-championship-round-6-betting-preview/",
+        "https://news.williamhill.com/rugby-union/nations-championship-predictions-tips-all-blacks-odds-on-to-bounce-back-against-england/",
+        "https://www.americasrugbynews.com/2026/11/19/nations-championship-2026-france-vs-argentina-arn-guide/"
+      ]
     }
   ]
 }
