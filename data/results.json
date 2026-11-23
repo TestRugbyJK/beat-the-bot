@@ -11,6 +11,12 @@
     { "match_id": "r5-m3", "home_score": 35, "away_score": 28, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604001/league/17567", "https://www.rugbypass.com/live/wales-vs-new-zealand/"], "verified": true },
     { "match_id": "r5-m4", "home_score": 78, "away_score": 15, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604002/league/17567", "https://www.rugbypass.com/live/england-vs-japan/"], "verified": true },
     { "match_id": "r5-m5", "home_score": 43, "away_score": 15, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604003/league/17567", "https://www.rugbypass.com/live/ireland-vs-fiji/"], "verified": true },
-    { "match_id": "r5-m6", "home_score": 15, "away_score": 12, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604004/league/17567", "https://scottishrugby.org/matches/internationals/2026-27/nations-championship/scotland-v-australia-3/"], "verified": true }
+    { "match_id": "r5-m6", "home_score": 15, "away_score": 12, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604004/league/17567", "https://scottishrugby.org/matches/internationals/2026-27/nations-championship/scotland-v-australia-3/"], "verified": true },
+    { "match_id": "r6-m1", "home_score": 37, "away_score": 12, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604005/league/17567", "https://www.rugbypass.com/live/england-vs-new-zealand/"], "verified": true },
+    { "match_id": "r6-m2", "home_score": 67, "away_score": 5, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604006/league/17567", "https://www.rugbypass.com/live/scotland-vs-japan/"], "verified": true },
+    { "match_id": "r6-m3", "home_score": 20, "away_score": 17, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604007/league/17567", "https://www.rugbypass.com/live/ireland-vs-south-africa/"], "verified": true },
+    { "match_id": "r6-m4", "home_score": 16, "away_score": 21, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604008/league/17567", "https://www.fijivillage.com/sports/salawa-credits-teamwork-as-key-to-success-over-italy-f6dbcb/"], "verified": true },
+    { "match_id": "r6-m5", "home_score": 26, "away_score": 29, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604010/league/17567", "https://www.rugbypass.com/live/wales-vs-australia/"], "verified": true },
+    { "match_id": "r6-m6", "home_score": 45, "away_score": 17, "sources": ["https://www.espn.co.uk/rugby/match/_/gameId/604009/league/17567", "https://www.rugbypass.com/live/france-vs-argentina/"], "verified": true }
   ]
 }
